@@ -1,0 +1,2694 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0 (swiftlang-6.0.0.9.10 clang-1600.0.26.2)
+// swift-module-flags: -target arm64-apple-ios16.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 6 -enforce-exclusivity=checked -O -enable-experimental-feature AccessLevelOnImport -enable-bare-slash-regex -module-name GoogleHomeSDK -package-name googlemac/iPhone/HomePlatform/SDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface
+import Combine
+import CryptoKit
+import Dispatch
+import Foundation
+import Matter
+import MatterSupport
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct AnyBitmap : GoogleHomeSDK.Bitmap {
+  public init(rawValue: Swift.UInt64)
+  public var rawValue: Swift.UInt64 {
+    get
+  }
+  public static func == (lhs: GoogleHomeSDK.AnyBitmap, rhs: GoogleHomeSDK.AnyBitmap) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias ArrayLiteralElement = GoogleHomeSDK.AnyBitmap
+  public typealias Element = GoogleHomeSDK.AnyBitmap
+  public typealias RawValue = Swift.UInt64
+}
+public struct AnyEnum : GoogleHomeSDK.Enum {
+  public typealias OriginalValue = Swift.UInt64
+  public init<T>(erasing object: T) where T : GoogleHomeSDK.Enum
+  public func cast<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.Enum
+  public func `is`<T>(_ type: T.Type = T.self) -> Swift.Bool where T : GoogleHomeSDK.Enum
+  public init(rawValue: Swift.UInt64)
+  public var rawValue: Swift.UInt64 {
+    get
+  }
+  public static func unrecognizedCase() -> GoogleHomeSDK.AnyEnum
+  public static func == (lhs: GoogleHomeSDK.AnyEnum, rhs: GoogleHomeSDK.AnyEnum) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias RawValue = Swift.UInt64
+}
+public struct AnyEvent : Swift.Sendable {
+  public let id: Swift.String
+  public func isEventType<T>(_ type: T.Type) -> Swift.Bool where T : GoogleHomeSDK.Event
+  public func decode<T>(as type: T.Type = T.self) throws -> T where T : GoogleHomeSDK.Event
+}
+public struct AnyField : GoogleHomeSDK.Field {
+  public init<T>(erasing field: T) where T : GoogleHomeSDK.Field
+  public init(rawValue: Swift.UInt32)
+  public var id: Swift.UInt32 {
+    get
+  }
+  public var type: GoogleHomeSDK.FieldType {
+    get
+  }
+  public var rawValue: Swift.UInt32 {
+    get
+  }
+  public func cast<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.Field
+  public func `is`<T>(_ type: T.Type = T.self) -> Swift.Bool where T : GoogleHomeSDK.Field
+  public func isEqual(to other: any GoogleHomeSDK.Field) -> Swift.Bool
+  public static func == (lhs: GoogleHomeSDK.AnyField, rhs: GoogleHomeSDK.AnyField) -> Swift.Bool
+  public typealias RawValue = Swift.UInt32
+}
+public struct AnyStruct : GoogleHomeSDK.StructDataRepresentable {
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public func cast<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.StructDataRepresentable
+  public func `is`<T>(_ type: T.Type = T.self) -> Swift.Bool where T : GoogleHomeSDK.StructDataRepresentable
+  public func isEqual(to other: any GoogleHomeSDK.StructDataRepresentable) -> Swift.Bool
+  public static func == (lhs: GoogleHomeSDK.AnyStruct, rhs: GoogleHomeSDK.AnyStruct) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct BatchCommandRequestInfo : Swift.Sendable {
+  public let objectID: Swift.String
+  public let commandID: GoogleHomeSDK.ScopedCommandID
+  public let request: (any GoogleHomeSDK.CommandRequest)?
+  public let useTimedInteraction: Swift.Bool
+}
+public struct BatchableCommand<ResponseType> : Swift.Sendable {
+  public let requestInfo: GoogleHomeSDK.BatchCommandRequestInfo
+  public init(objectID: Swift.String, commandID: GoogleHomeSDK.ScopedCommandID, request: (any GoogleHomeSDK.CommandRequest)?, useTimedInteraction: Swift.Bool)
+}
+public protocol Command : Swift.Sendable {
+  static var identifier: GoogleHomeSDK.ScopedCommandID { get }
+  static func requestField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+extension GoogleHomeSDK.Command {
+  public static func requestField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public enum ConnectivityState : Swift.Sendable {
+  case unknown
+  case online
+  case offline
+  case partiallyOnline
+  public static func == (a: GoogleHomeSDK.ConnectivityState, b: GoogleHomeSDK.ConnectivityState) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol DeviceType : Swift.CustomDebugStringConvertible, Swift.Hashable, Swift.Sendable {
+  static var identifier: Swift.String { get }
+  var metadata: GoogleHomeSDK.DeviceTypeMetadata { get }
+  var traits: GoogleHomeSDK.TraitCollection { get }
+  var events: any GoogleHomeSDK.EventController { get }
+  init(traits: GoogleHomeSDK.TraitCollection, eventController: any GoogleHomeSDK.EventController, metadataBuilder: ([any GoogleHomeSDK.Trait]?) -> GoogleHomeSDK.DeviceTypeMetadata) throws
+}
+extension GoogleHomeSDK.DeviceType {
+  public var identifier: Swift.String {
+    get
+  }
+  public static func == (lhs: Self, rhs: Self) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@_hasMissingDesignatedInitializers final public class DeviceTypeCollection : Swift.Sendable {
+  final public func contains<T>(_ type: T.Type) -> Swift.Bool where T : GoogleHomeSDK.DeviceType
+  final public subscript<T>(type: T.Type) -> T? where T : GoogleHomeSDK.DeviceType {
+    get
+  }
+  @objc deinit
+}
+extension GoogleHomeSDK.DeviceTypeCollection : Swift.Hashable {
+  final public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.DeviceTypeCollection, rhs: GoogleHomeSDK.DeviceTypeCollection) -> Swift.Bool
+  final public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers final public class DeviceTypeController : Swift.Sendable {
+  final public func contains<T>(_ type: T.Type = T.self) -> Swift.Bool where T : GoogleHomeSDK.DeviceType
+  final public func get<T>(_ type: T.Type = T.self) async -> T? where T : GoogleHomeSDK.DeviceType
+  final public func subscribe<T>(_ type: T.Type = T.self) -> Combine.AnyPublisher<T, GoogleHomeSDK.HomeError> where T : GoogleHomeSDK.DeviceType
+  final public func subscribeAll() -> Combine.AnyPublisher<GoogleHomeSDK.DeviceTypeCollection, GoogleHomeSDK.HomeError>
+  @objc deinit
+}
+public struct DeviceTypeMetadata : Swift.Sendable, Swift.Hashable {
+  public typealias Builder = ([any GoogleHomeSDK.Trait]?) -> GoogleHomeSDK.DeviceTypeMetadata
+  public let isPrimaryType: Swift.Bool
+  public let sourceConnectivity: GoogleHomeSDK.SourceConnectivity
+  public let objectID: Swift.String
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.DeviceTypeMetadata, b: GoogleHomeSDK.DeviceTypeMetadata) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol Event : Swift.CustomDebugStringConvertible, Swift.Sendable {
+  static var identifier: GoogleHomeSDK.ScopedEventID { get }
+  static var name: Swift.StaticString { get }
+  var timestamp: Foundation.TimeInterval { get }
+  var importance: GoogleHomeSDK.EventImportance { get }
+  var number: Swift.UInt { get }
+  init(decoder: GoogleHomeSDK.TraitDecoder, timestamp: Foundation.TimeInterval, importance: GoogleHomeSDK.EventImportance, number: Swift.UInt) throws
+  func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  static func eventField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+extension GoogleHomeSDK.Event {
+  public static func eventField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public protocol EventController : Swift.Sendable {
+  func contains<E>(_ type: E.Type) -> Swift.Bool where E : GoogleHomeSDK.Event
+  func subscribe<E>(_ type: E.Type) -> Combine.AnyPublisher<E, GoogleHomeSDK.HomeError> where E : GoogleHomeSDK.Event
+  func subscribe<T>(_ type: T.Type) -> Combine.AnyPublisher<any GoogleHomeSDK.Event, GoogleHomeSDK.HomeError> where T : GoogleHomeSDK.Trait
+  func subscribe(_ types: any GoogleHomeSDK.Trait.Type...) -> Combine.AnyPublisher<any GoogleHomeSDK.Event, GoogleHomeSDK.HomeError>
+  func subscribe(_ types: [any GoogleHomeSDK.Trait.Type]) -> Combine.AnyPublisher<any GoogleHomeSDK.Event, GoogleHomeSDK.HomeError>
+  func subscribeAll() -> Combine.AnyPublisher<GoogleHomeSDK.AnyEvent, GoogleHomeSDK.HomeError>
+}
+public enum EventImportance : Swift.Sendable, Swift.Equatable {
+  case productionCritical
+  case productionStandard
+  case info
+  case debug
+  case unspecified
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.EventImportance, b: GoogleHomeSDK.EventImportance) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol Field : Swift.Hashable, Swift.RawRepresentable, Swift.Sendable where Self.RawValue == Swift.UInt32 {
+  var id: Swift.UInt32 { get }
+  var type: GoogleHomeSDK.FieldType { get }
+  func isEqual(to other: any GoogleHomeSDK.Field) -> Swift.Bool
+}
+extension GoogleHomeSDK.Field {
+  public func isEqual(to other: any GoogleHomeSDK.Field) -> Swift.Bool
+}
+public enum FieldType : Swift.Equatable, Swift.Sendable {
+  case unknown
+  case bool
+  case uint8
+  case uint16
+  case uint32
+  case uint64
+  case int8
+  case int16
+  case int32
+  case int64
+  case float
+  case double
+  case string
+  case data
+  case `enum`(any GoogleHomeSDK.Enum.Type)
+  case bitmap(any GoogleHomeSDK.Bitmap.Type)
+  case `struct`(any GoogleHomeSDK.StructDataRepresentable.Type)
+  case dynamic(any Any.Type)
+  public static func == (lhs: GoogleHomeSDK.FieldType, rhs: GoogleHomeSDK.FieldType) -> Swift.Bool
+}
+public protocol ForceReadableTrait : GoogleHomeSDK.Trait {
+  func forceRead() async throws
+}
+@_hasMissingDesignatedInitializers final public class Home : @unchecked Swift.Sendable {
+  final public let identifier: Swift.String
+  final public func devices() -> some GoogleHomeSDK.Query<GoogleHomeSDK.HomeDevice>
+  
+  final public func device(id: Swift.String) -> some Combine.Publisher<GoogleHomeSDK.HomeDevice, GoogleHomeSDK.HomeError>
+  
+  final public func structures() -> some GoogleHomeSDK.Query<GoogleHomeSDK.Structure>
+  
+  final public func structure(id: Swift.String) -> some Combine.Publisher<GoogleHomeSDK.Structure, GoogleHomeSDK.HomeError>
+  
+  final public func rooms() -> some GoogleHomeSDK.Query<GoogleHomeSDK.Room>
+  
+  final public func room(id: Swift.String) -> some Combine.Publisher<GoogleHomeSDK.Room, GoogleHomeSDK.HomeError>
+  
+  @objc deinit
+}
+extension GoogleHomeSDK.Home {
+  @_Concurrency.MainActor public static func connect() async throws -> GoogleHomeSDK.Home
+  final public func disconnect() async
+}
+extension GoogleHomeSDK.Home {
+  @_Concurrency.MainActor final public func prepareForMatterCommissioning(structureID: Swift.String) async throws
+  final public func completeMatterCommissioning() throws -> Swift.Set<Swift.String>
+  final public func cancelMatterCommissioning()
+  final public func markMatterCommissioningFailed(error: any Swift.Error) -> GoogleHomeSDK.MatterUnsuccessfulCommissioningResult
+}
+extension GoogleHomeSDK.Home {
+  @_Concurrency.MainActor final public func presentPermissionsUpdate()
+}
+extension GoogleHomeSDK.Home {
+  public static var sdkVersion: Swift.String {
+    get
+  }
+}
+public struct HomeDevice {
+  public let objectType: GoogleHomeSDK.HomeObjectType
+  public let context: GoogleHomeSDK.Home
+  public let id: Swift.String
+  public var name: Swift.String {
+    get
+  }
+  public var structureID: Swift.String? {
+    get
+  }
+  public var roomID: Swift.String? {
+    get
+  }
+  public let types: GoogleHomeSDK.DeviceTypeController
+  public let isMatterDevice: Swift.Bool
+  public var sourceConnectivity: GoogleHomeSDK.SourceConnectivity
+  public static func == (lhs: GoogleHomeSDK.HomeDevice, rhs: GoogleHomeSDK.HomeDevice) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.HomeDevice {
+  public func setName(_ name: Swift.String) async throws -> GoogleHomeSDK.HomeDevice
+}
+public struct HomeError : Swift.Error, Swift.Hashable {
+  public let code: GoogleHomeSDK.HomeError.Code
+  public let message: Swift.String
+  public let subtype: GoogleHomeSDK.HomeError.Subtype?
+  public var localizedDescription: Swift.String {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.HomeError, b: GoogleHomeSDK.HomeError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.HomeError {
+  public enum Code : Swift.Int, Swift.Sendable {
+    case cancelled
+    case unknown
+    case invalidArgument
+    case deadlineExceeded
+    case notFound
+    case alreadyExists
+    case permissionDenied
+    case resourceExhausted
+    case failedPrecondition
+    case aborted
+    case outOfRange
+    case unimplemented
+    case `internal`
+    case unavailable
+    case dataLoss
+    case unauthenticated
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension GoogleHomeSDK.HomeError {
+  public enum Subtype : Swift.Hashable, Swift.Sendable {
+    case bulk(errors: [GoogleHomeSDK.HomeError])
+    case matter(_: GoogleHomeSDK.MatterError)
+    public func hash(into hasher: inout Swift.Hasher)
+    public static func == (a: GoogleHomeSDK.HomeError.Subtype, b: GoogleHomeSDK.HomeError.Subtype) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension GoogleHomeSDK.HomeError : Foundation.CustomNSError {
+  public static let errorDomain: Swift.String
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+public struct MatterError : Swift.Hashable, Swift.Sendable {
+  public let code: Swift.Int
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.MatterError, b: GoogleHomeSDK.MatterError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.HomeError {
+  public static func cancelled(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func invalidArgument(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func deadlineExceeded(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func notFound(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func alreadyExists(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func permissionDenied(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func resourceExhausted(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func failedPrecondition(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func aborted(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func outOfRange(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func unimplemented(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func `internal`(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func unavailable(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func dataLoss(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+  public static func unauthenticated(_ message: Swift.String = "") -> GoogleHomeSDK.HomeError
+}
+public enum HomeObjectType : Swift.Sendable {
+  case structure, room, device, endpoint, component, automation, any
+  public var objectTypeID: Swift.String {
+    get
+  }
+  public static func == (a: GoogleHomeSDK.HomeObjectType, b: GoogleHomeSDK.HomeObjectType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol HomeObject : Swift.Hashable, Swift.Identifiable, Swift.Sendable where Self.ID == Swift.String {
+  var objectType: GoogleHomeSDK.HomeObjectType { get }
+  var context: GoogleHomeSDK.Home { get }
+  var id: Swift.String { get }
+}
+extension GoogleHomeSDK.HomeObject {
+  public static func == (lhs: Self, rhs: Self) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct AnyHomeObject : GoogleHomeSDK.HomeObject {
+  public let object: any GoogleHomeSDK.HomeObject
+  public init<T>(erasing object: T) where T : GoogleHomeSDK.HomeObject
+  public init?(_ anyObject: Any)
+  public var objectType: GoogleHomeSDK.HomeObjectType {
+    get
+  }
+  public var id: Swift.String {
+    get
+  }
+  public var context: GoogleHomeSDK.Home {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public func cast<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.HomeObject
+  public static func == (lhs: GoogleHomeSDK.AnyHomeObject, rhs: GoogleHomeSDK.AnyHomeObject) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public typealias ClusterID = Swift.String
+public protocol NamespaceProvider {
+  var namespace: [Swift.UInt32] { get }
+}
+extension Swift.String : Swift.Sendable, GoogleHomeSDK.NamespaceProvider {
+  public var namespace: [Swift.UInt32] {
+    get
+  }
+}
+public struct ScopedCommandID : Swift.Sendable, GoogleHomeSDK.NamespaceProvider {
+  public let commandID: Swift.String
+  public init(clusterID: GoogleHomeSDK.ClusterID, command: Swift.UInt32)
+  public init(clusterID: GoogleHomeSDK.ClusterID, command: Swift.String)
+  public var namespace: [Swift.UInt32] {
+    get
+  }
+}
+public struct ScopedEventID : Swift.Sendable, GoogleHomeSDK.NamespaceProvider {
+  public let eventID: Swift.String
+  public init(clusterID: GoogleHomeSDK.ClusterID, event: Swift.UInt32)
+  public init(clusterID: GoogleHomeSDK.ClusterID, event: Swift.String)
+  public var namespace: [Swift.UInt32] {
+    get
+  }
+}
+public protocol CommandRequest : Swift.Sendable {
+  func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+}
+public protocol CommandResponse : Swift.Sendable {
+  init(decoder: GoogleHomeSDK.TraitDecoder) throws
+}
+public protocol InteractionProxy : Swift.Sendable {
+  var strictOperationValidation: Swift.Bool { get }
+  func sendCommand(commandID: GoogleHomeSDK.ScopedCommandID, request: (any GoogleHomeSDK.CommandRequest)?, useTimedInteraction: Swift.Bool, clientRequestID: Swift.String?) async throws
+  func sendCommand<Response>(commandID: GoogleHomeSDK.ScopedCommandID, request: (any GoogleHomeSDK.CommandRequest)?, useTimedInteraction: Swift.Bool, clientRequestID: Swift.String?) async throws -> Response where Response : GoogleHomeSDK.CommandResponse
+  func update(trait: any GoogleHomeSDK.TraitEncodable, useTimedInteraction: Swift.Bool) async throws
+  func forceRead(traitID: GoogleHomeSDK.ClusterID) async throws
+  func buildBatchableCommand<Response>(commandID: GoogleHomeSDK.ScopedCommandID, request: (any GoogleHomeSDK.CommandRequest)?, useTimedInteraction: Swift.Bool) -> GoogleHomeSDK.BatchableCommand<Response>
+}
+extension GoogleHomeSDK.InteractionProxy {
+  public func sendCommand(commandID: GoogleHomeSDK.ScopedCommandID, request: (any GoogleHomeSDK.CommandRequest)?, useTimedInteraction: Swift.Bool) async throws
+  public func sendCommand<Response>(commandID: GoogleHomeSDK.ScopedCommandID, request: (any GoogleHomeSDK.CommandRequest)?, useTimedInteraction: Swift.Bool) async throws -> Response where Response : GoogleHomeSDK.CommandResponse
+}
+public enum LocalityType : Swift.Sendable {
+  case unspecified
+  case localPeer
+  case remote
+  case mixed
+  public static func == (a: GoogleHomeSDK.LocalityType, b: GoogleHomeSDK.LocalityType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+#if compiler(>=5.3) && $PrimaryAssociatedTypes2
+public protocol Query<Element> : Swift.Sendable {
+  associatedtype Element : Swift.Hashable, Swift.Sendable
+  func stream() -> Combine.AnyPublisher<GoogleHomeSDK.HomeObjectUpdate<Self.Element>, GoogleHomeSDK.HomeError>
+  func batched() -> Combine.AnyPublisher<Swift.Set<Self.Element>, GoogleHomeSDK.HomeError>
+  func list() async throws -> Swift.Set<Self.Element>
+}
+#else
+public protocol Query : Swift.Sendable {
+  associatedtype Element : Swift.Hashable, Swift.Sendable
+  func stream() -> Combine.AnyPublisher<GoogleHomeSDK.HomeObjectUpdate<Self.Element>, GoogleHomeSDK.HomeError>
+  func batched() -> Combine.AnyPublisher<Swift.Set<Self.Element>, GoogleHomeSDK.HomeError>
+  func list() async throws -> Swift.Set<Self.Element>
+}
+#endif
+public enum HomeObjectUpdate<Element> : Swift.Hashable, Swift.Sendable where Element : Swift.Hashable, Element : Swift.Sendable {
+  case initial(Element)
+  case added(Element)
+  case deleted(objectID: Swift.String)
+  case changed(Element)
+  public var object: Element? {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.HomeObjectUpdate<Element>, b: GoogleHomeSDK.HomeObjectUpdate<Element>) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Room {
+  public let objectType: GoogleHomeSDK.HomeObjectType
+  public let context: GoogleHomeSDK.Home
+  public let id: Swift.String
+  public var name: Swift.String {
+    get
+  }
+  public var structureID: Swift.String {
+    get
+  }
+  public static func == (lhs: GoogleHomeSDK.Room, rhs: GoogleHomeSDK.Room) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.Room {
+  public func setName(_ name: Swift.String) async throws -> GoogleHomeSDK.Room
+}
+public struct SourceConnectivity : Swift.Sendable, Swift.Hashable {
+  public let connectivityState: GoogleHomeSDK.ConnectivityState
+  public let dataSourceLocality: GoogleHomeSDK.LocalityType
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.SourceConnectivity, b: GoogleHomeSDK.SourceConnectivity) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Structure {
+  public let objectType: GoogleHomeSDK.HomeObjectType
+  public let context: GoogleHomeSDK.Home
+  public let id: Swift.String
+  public var name: Swift.String {
+    get
+  }
+  public static func == (lhs: GoogleHomeSDK.Structure, rhs: GoogleHomeSDK.Structure) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.Structure {
+  public func update(_ block: (any GoogleHomeSDK.MutableStructureData) -> Swift.Void) async throws -> GoogleHomeSDK.Structure
+}
+public protocol MutableStructureData : AnyObject {
+  var name: Swift.String { get set }
+}
+extension GoogleHomeSDK.Structure {
+  public func createRoom(name: Swift.String) async throws -> GoogleHomeSDK.Room
+  public func deleteRoom(_ room: GoogleHomeSDK.Room) async throws
+  public func deleteRoom(id: Swift.String) async throws
+  public func move(device: GoogleHomeSDK.HomeDevice, to room: GoogleHomeSDK.Room) async throws
+  public func move(device deviceID: Swift.String, to roomID: Swift.String) async throws
+  public func move(devices: any Swift.Collection<GoogleHomeSDK.HomeDevice>, to room: GoogleHomeSDK.Room) async throws
+  public func move(devices deviceIDs: any Swift.Collection<Swift.String>, to roomID: Swift.String) async throws
+}
+extension GoogleHomeSDK.Structure {
+  @_Concurrency.MainActor public func prepareForMatterCommissioning() async throws
+  public func completeMatterCommissioning() throws -> Swift.Set<Swift.String>
+  public func cancelMatterCommissioning()
+  public func markMatterCommissioningFailed(error: any Swift.Error) -> GoogleHomeSDK.MatterUnsuccessfulCommissioningResult
+}
+public protocol Trait : GoogleHomeSDK.TraitEncodable, Swift.CustomStringConvertible, Swift.Hashable, Swift.Sendable {
+  static var supportedEventTypes: [any GoogleHomeSDK.Event.Type] { get }
+  static var supportedCommandTypes: [any GoogleHomeSDK.Command.Type] { get }
+  var metadata: GoogleHomeSDK.TraitMetadata { get }
+  init(decoder: GoogleHomeSDK.TraitDecoder, interactionProxy: (any GoogleHomeSDK.InteractionProxy)?, metadata: GoogleHomeSDK.TraitMetadata) throws
+  static func attribute(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+extension GoogleHomeSDK.Trait {
+  public var description: Swift.String {
+    get
+  }
+}
+extension GoogleHomeSDK.Trait {
+  public static func attribute(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public typealias TagID = Swift.UInt32
+public protocol Scalar : Swift.Hashable, Swift.Sendable {
+}
+public protocol DefaultConstructible {
+  init()
+}
+extension Swift.Int8 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.Int16 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.Int32 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.Int64 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.UInt8 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible, GoogleHomeSDK.BitmapStorage {
+}
+extension Swift.UInt16 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible, GoogleHomeSDK.BitmapStorage {
+}
+extension Swift.UInt32 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible, GoogleHomeSDK.BitmapStorage {
+}
+extension Swift.UInt64 : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible, GoogleHomeSDK.BitmapStorage {
+}
+extension Swift.Float : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.Double : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.String : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Foundation.Data : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+extension Swift.Bool : GoogleHomeSDK.Scalar, GoogleHomeSDK.DefaultConstructible {
+}
+public protocol BitmapStorage : GoogleHomeSDK.DefaultConstructible, GoogleHomeSDK.Scalar, Swift.UnsignedInteger {
+}
+public protocol Bitmap : GoogleHomeSDK.AutomationValue, Swift.OptionSet where Self.RawValue : GoogleHomeSDK.BitmapStorage {
+}
+extension GoogleHomeSDK.Bitmap {
+  public init?(rawValue: Swift.UInt64)
+}
+public protocol Enum : GoogleHomeSDK.AutomationValue, Swift.RawRepresentable where Self.RawValue == Swift.UInt64 {
+  associatedtype OriginalValue
+  static func unrecognizedCase() -> Self
+}
+public protocol Enum8 : GoogleHomeSDK.Enum {
+  associatedtype OriginalValue = Swift.UInt8
+}
+public protocol Enum16 : GoogleHomeSDK.Enum {
+  associatedtype OriginalValue = Swift.UInt16
+}
+public protocol Enum32 : GoogleHomeSDK.Enum {
+  associatedtype OriginalValue = Swift.UInt32
+}
+public protocol PlatformEnum : GoogleHomeSDK.Enum32 {
+  associatedtype OriginalValue = Swift.UInt32
+}
+extension GoogleHomeSDK.PlatformEnum {
+  public init?(valueName: Swift.String)
+}
+public protocol StructDataRepresentable : GoogleHomeSDK.AutomationValue {
+  init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+extension GoogleHomeSDK.StructDataRepresentable {
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+extension GoogleHomeSDK.StructDataRepresentable {
+  public func isEqual(to other: any GoogleHomeSDK.StructDataRepresentable) -> Swift.Bool
+  public init?(fields: [GoogleHomeSDK.AnyField : GoogleHomeSDK.AnyAutomationValue])
+  public func toFields() -> [GoogleHomeSDK.AnyField : GoogleHomeSDK.AnyAutomationValue]
+}
+@propertyWrapper public struct TraitAttribute<Value> : Swift.Sendable where Value : Swift.Sendable {
+  public let wrappedValue: Value?
+  public let isSupported: Swift.Bool
+  public let isNullable: Swift.Bool
+  public var projectedValue: GoogleHomeSDK.TraitAttribute<Value> {
+    get
+  }
+  public init(wrappedValue: Value?, isSupported: Swift.Bool, isNullable: Swift.Bool)
+}
+@_hasMissingDesignatedInitializers final public class TraitCollection : Swift.Sendable, Swift.Hashable {
+  final public func contains<T>(_ type: T.Type) -> Swift.Bool where T : GoogleHomeSDK.Trait
+  final public subscript<T>(type: T.Type) -> T? where T : GoogleHomeSDK.Trait {
+    get
+  }
+  public static func == (lhs: GoogleHomeSDK.TraitCollection, rhs: GoogleHomeSDK.TraitCollection) -> Swift.Bool
+  final public func hash(into hasher: inout Swift.Hasher)
+  @objc deinit
+  final public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol TraitController : Swift.Sendable {
+  func contains<T>(_ type: T.Type) -> Swift.Bool where T : GoogleHomeSDK.Trait
+  func get<T>(_ type: T.Type) async -> T? where T : GoogleHomeSDK.Trait
+  func subscribe<T>(_ type: T.Type) -> Combine.AnyPublisher<T, GoogleHomeSDK.HomeError> where T : GoogleHomeSDK.Trait
+}
+public struct TraitDecoder {
+  public func unwrapPayload(namespace: [Swift.UInt32]) throws -> GoogleHomeSDK.TraitDecoder
+  public func decode<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T where T : GoogleHomeSDK.Scalar
+  public func decodeArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T] where T : GoogleHomeSDK.Scalar
+  public func decodeOptional<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T? where T : GoogleHomeSDK.Scalar
+  public func decodeOptionalArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T]? where T : GoogleHomeSDK.Scalar
+  public func decode<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T where T : GoogleHomeSDK.Bitmap
+  public func decodeArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T] where T : GoogleHomeSDK.Bitmap
+  public func decodeOptional<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T? where T : GoogleHomeSDK.Bitmap
+  public func decodeOptionalArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T]? where T : GoogleHomeSDK.Bitmap
+  public func decode<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T where T : GoogleHomeSDK.Enum
+  public func decodeArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T] where T : GoogleHomeSDK.Enum
+  public func decodeOptional<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T? where T : GoogleHomeSDK.Enum
+  public func decodeOptionalArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T]? where T : GoogleHomeSDK.Enum
+  public func decode<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T where T : GoogleHomeSDK.StructDataRepresentable
+  public func decodeArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T] where T : GoogleHomeSDK.StructDataRepresentable
+  public func decodeOptional<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> T? where T : GoogleHomeSDK.StructDataRepresentable
+  public func decodeOptionalArray<T>(tag: GoogleHomeSDK.TagID, type: T.Type = T.self) throws -> [T]? where T : GoogleHomeSDK.StructDataRepresentable
+  public func decodeMap<K, V>(tag: GoogleHomeSDK.TagID, keyType: K.Type = K.self, valueType: V.Type = V.self) throws -> [K : V] where K : GoogleHomeSDK.Scalar, V : GoogleHomeSDK.StructDataRepresentable
+  public func decodeMap<K, V>(tag: GoogleHomeSDK.TagID, keyType: K.Type = K.self, valueType: V.Type = V.self) throws -> [K : V] where K : GoogleHomeSDK.Scalar, V : GoogleHomeSDK.Scalar
+  public func decodeOptionalMap<K, V>(tag: GoogleHomeSDK.TagID, keyType: K.Type = K.self, valueType: V.Type = V.self) throws -> [K : V]? where K : GoogleHomeSDK.Scalar, V : GoogleHomeSDK.StructDataRepresentable
+  public func decodeOptionalMap<K, V>(tag: GoogleHomeSDK.TagID, keyType: K.Type = K.self, valueType: V.Type = V.self) throws -> [K : V]? where K : GoogleHomeSDK.Scalar, V : GoogleHomeSDK.Scalar
+}
+extension GoogleHomeSDK.TraitDecoder {
+  public static func defaultValue<T>(type: T.Type = T.self) -> T where T : GoogleHomeSDK.DefaultConstructible
+  public static func defaultValue<T>(type: [T].Type = [T].self) -> [T]
+  public static func defaultValue<K, V>(typeK: K.Type = K.self, typeV: V.Type = V.self) -> [K : V] where K : Swift.Hashable
+  public static func defaultValue<T>(type: T.Type = T.self) -> T where T : GoogleHomeSDK.Bitmap
+  public static func defaultValue<T>(type: T.Type = T.self) -> T where T : GoogleHomeSDK.Enum
+}
+public protocol TraitEncodable {
+  static var identifier: Swift.String { get }
+  func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+}
+extension GoogleHomeSDK.TraitEncodable {
+  public var identifier: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers final public class TraitEncoder {
+  public enum PayloadType {
+    case internalType
+    case uddmCommand
+    case uddmCommandResponse
+    case uddmEvent
+    case uddmTrait
+    public static func == (a: GoogleHomeSDK.TraitEncoder.PayloadType, b: GoogleHomeSDK.TraitEncoder.PayloadType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  final public var encodingFormatResolvesToProtobuf: Swift.Bool {
+    get
+  }
+  @discardableResult
+  final public func wrapPayload(namespace: [Swift.UInt32]) -> Self
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T) throws -> Self where T : GoogleHomeSDK.Scalar
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]) throws -> Self where T : GoogleHomeSDK.Scalar
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T?) throws -> Self where T : GoogleHomeSDK.Scalar
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]?) throws -> Self where T : GoogleHomeSDK.Scalar
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T) throws -> Self where T : GoogleHomeSDK.Bitmap
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]) throws -> Self where T : GoogleHomeSDK.Bitmap
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T?) throws -> Self where T : GoogleHomeSDK.Bitmap
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]?) throws -> Self where T : GoogleHomeSDK.Bitmap
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T) throws -> Self where T : GoogleHomeSDK.Enum
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]) throws -> Self where T : GoogleHomeSDK.Enum
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T?) throws -> Self where T : GoogleHomeSDK.Enum
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]?) throws -> Self where T : GoogleHomeSDK.Enum
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T) throws -> Self where T : GoogleHomeSDK.StructDataRepresentable
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]) throws -> Self where T : GoogleHomeSDK.StructDataRepresentable
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: T?) throws -> Self where T : GoogleHomeSDK.StructDataRepresentable
+  @discardableResult
+  final public func encode<T>(tag: GoogleHomeSDK.TagID, value: [T]?) throws -> Self where T : GoogleHomeSDK.StructDataRepresentable
+  @discardableResult
+  final public func encode<K, V>(tag: GoogleHomeSDK.TagID, value: [K : V]) throws -> Self where K : GoogleHomeSDK.Scalar, V : GoogleHomeSDK.StructDataRepresentable
+  @discardableResult
+  final public func encode<K, V>(tag: GoogleHomeSDK.TagID, value: [K : V]) throws -> Self where K : GoogleHomeSDK.Scalar, V : GoogleHomeSDK.Scalar
+  @objc deinit
+}
+public struct TraitMetadata : Swift.Sendable, Swift.Hashable {
+  public let sourceConnectivity: GoogleHomeSDK.SourceConnectivity
+  public init()
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.TraitMetadata, b: GoogleHomeSDK.TraitMetadata) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct TraitPayload : Swift.Sendable, Swift.Hashable {
+  public init(id: Swift.String, typeURL: Swift.String = "", value: Foundation.Data)
+  public var id: Swift.String {
+    get
+  }
+  public var typeURL: Swift.String {
+    get
+  }
+  public var value: Foundation.Data {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.TraitPayload, rhs: GoogleHomeSDK.TraitPayload) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct UnknownBitmap : GoogleHomeSDK.Bitmap {
+  public let rawValue: Swift.UInt64
+  public init(rawValue: Swift.UInt64)
+  public typealias ArrayLiteralElement = GoogleHomeSDK.UnknownBitmap
+  public typealias Element = GoogleHomeSDK.UnknownBitmap
+  public typealias RawValue = Swift.UInt64
+}
+public struct UnknownCommand : GoogleHomeSDK.Command {
+  public static let identifier: GoogleHomeSDK.ScopedCommandID
+}
+public struct UnknownDeviceType : GoogleHomeSDK.DeviceType {
+  public static let identifier: Swift.String
+  public let metadata: GoogleHomeSDK.DeviceTypeMetadata
+  public let traits: GoogleHomeSDK.TraitCollection
+  public let events: any GoogleHomeSDK.EventController
+  public init(traits: GoogleHomeSDK.TraitCollection, eventController: any GoogleHomeSDK.EventController, metadataBuilder: ([any GoogleHomeSDK.Trait]?) -> GoogleHomeSDK.DeviceTypeMetadata) throws
+  public var debugDescription: Swift.String {
+    get
+  }
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct UnknownEnum : GoogleHomeSDK.Enum {
+  public typealias OriginalValue = Swift.UInt64
+  public let rawValue: Swift.UInt64
+  public init(rawValue: Swift.UInt64)
+  public static func unrecognizedCase() -> GoogleHomeSDK.UnknownEnum
+  public typealias RawValue = Swift.UInt64
+}
+public struct UnknownEvent : GoogleHomeSDK.Event {
+  public static let identifier: GoogleHomeSDK.ScopedEventID
+  public static let name: Swift.StaticString
+  public var timestamp: Foundation.TimeInterval
+  public var importance: GoogleHomeSDK.EventImportance
+  public var number: Swift.UInt
+  public init(decoder: GoogleHomeSDK.TraitDecoder, timestamp: Foundation.TimeInterval, importance: GoogleHomeSDK.EventImportance, number: Swift.UInt) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public struct UnknownField : GoogleHomeSDK.Field {
+  public let rawValue: Swift.UInt32
+  public init(rawValue: Swift.UInt32)
+  public var id: Swift.UInt32 {
+    get
+  }
+  public var type: GoogleHomeSDK.FieldType {
+    get
+  }
+  public typealias RawValue = Swift.UInt32
+}
+public struct UnknownHomeObject : GoogleHomeSDK.HomeObject {
+  public let objectType: GoogleHomeSDK.HomeObjectType
+  public let context: GoogleHomeSDK.Home
+  public let id: Swift.String
+  public init(context: GoogleHomeSDK.Home, id: Swift.String)
+  public init(objectType: GoogleHomeSDK.HomeObjectType, context: GoogleHomeSDK.Home, id: GoogleHomeSDK.UnknownHomeObject.ID)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct UnknownStruct : GoogleHomeSDK.StructDataRepresentable {
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public static func == (lhs: GoogleHomeSDK.UnknownStruct, rhs: GoogleHomeSDK.UnknownStruct) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct UnknownTrait : GoogleHomeSDK.Trait {
+  public static let identifier: Swift.String
+  public static let supportedEventTypes: [any GoogleHomeSDK.Event.Type]
+  public static let supportedCommandTypes: [any GoogleHomeSDK.Command.Type]
+  public let metadata: GoogleHomeSDK.TraitMetadata
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public init(decoder: GoogleHomeSDK.TraitDecoder, interactionProxy: (any GoogleHomeSDK.InteractionProxy)?, metadata: GoogleHomeSDK.TraitMetadata) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.UnknownTrait, b: GoogleHomeSDK.UnknownTrait) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum AnyAutomationValue : Swift.Hashable, Swift.Sendable {
+  case unknown(Foundation.Data)
+  case `nil`
+  case int8(Swift.Int8)
+  case int16(Swift.Int16)
+  case int32(Swift.Int32)
+  case int64(Swift.Int64)
+  case uint8(Swift.UInt8)
+  case uint16(Swift.UInt16)
+  case uint32(Swift.UInt32)
+  case uint64(Swift.UInt64)
+  case float(Swift.Float)
+  case double(Swift.Double)
+  case bool(Swift.Bool)
+  case string(Swift.String)
+  case bytes(Foundation.Data)
+  case list([GoogleHomeSDK.AnyAutomationValue])
+  case map([GoogleHomeSDK.AnyAutomationValue : GoogleHomeSDK.AnyAutomationValue])
+  case dayOfWeek(Foundation.Locale.Weekday)
+  case timeOfDay(GoogleHomeSDK.TimeOfDay)
+  case solarTime(GoogleHomeSDK.SolarTime)
+  case date(GoogleHomeSDK.LocalDate)
+  case monthDay(GoogleHomeSDK.MonthDay)
+  case yearMonth(GoogleHomeSDK.YearMonth)
+  case month(GoogleHomeSDK.LocalDate.Month)
+  case duration(Swift.Duration)
+  case `enum`(GoogleHomeSDK.AnyEnum)
+  case bitmap(GoogleHomeSDK.AnyBitmap)
+  case `struct`(GoogleHomeSDK.AnyStruct)
+  public static func from(_ value: (any GoogleHomeSDK.AutomationValue)?) -> GoogleHomeSDK.AnyAutomationValue
+  public var associatedValue: Any? {
+    get
+  }
+  public func `as`<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.AutomationValue
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.AnyAutomationValue, b: GoogleHomeSDK.AnyAutomationValue) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol AutomationValue : Swift.Hashable, Swift.Sendable {
+}
+extension Swift.Int : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Int8 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Int16 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Int32 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Int64 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.UInt : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.UInt8 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.UInt16 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.UInt32 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.UInt64 : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Double : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Float : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.String : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Bool : GoogleHomeSDK.AutomationValue {
+}
+extension Foundation.Data : GoogleHomeSDK.AutomationValue {
+}
+extension Foundation.Locale.Weekday : GoogleHomeSDK.AutomationValue {
+}
+extension GoogleHomeSDK.TimeOfDay : GoogleHomeSDK.AutomationValue {
+}
+extension GoogleHomeSDK.LocalDate : GoogleHomeSDK.AutomationValue {
+}
+extension GoogleHomeSDK.MonthDay : GoogleHomeSDK.AutomationValue {
+}
+extension GoogleHomeSDK.YearMonth : GoogleHomeSDK.AutomationValue {
+}
+extension GoogleHomeSDK.LocalDate.Month : GoogleHomeSDK.AutomationValue {
+}
+extension GoogleHomeSDK.SolarTime : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Duration : GoogleHomeSDK.AutomationValue {
+}
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.AutomationValue where Wrapped : GoogleHomeSDK.AutomationValue {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.AutomationValue where Wrapped : GoogleHomeSDK.AutomationValue {
+}
+#endif
+extension Swift.Array : GoogleHomeSDK.AutomationValue where Element : GoogleHomeSDK.AutomationValue {
+}
+extension Swift.Array : GoogleHomeSDK.AutomationValueArray where Element : GoogleHomeSDK.AutomationValue {
+}
+public struct AutomationEntry : GoogleHomeSDK.AutomationValue {
+  public let key: GoogleHomeSDK.AnyAutomationValue
+  public let value: GoogleHomeSDK.AnyAutomationValue
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.AutomationEntry, b: GoogleHomeSDK.AutomationEntry) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol AutomationValueArray : Swift.Collection where Self.Element : GoogleHomeSDK.AutomationValue {
+}
+public protocol OptionalAutomationValueArray {
+  associatedtype Wrapped : GoogleHomeSDK.AutomationValueArray
+}
+public protocol OptionalAutomationValue {
+  associatedtype Wrapped : GoogleHomeSDK.AutomationValue
+}
+public protocol OptionalComparable {
+}
+public protocol OptionalNumeric {
+}
+public protocol OptionalSignedInteger {
+}
+public protocol OptionalUnsignedInteger {
+}
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.OptionalAutomationValue where Wrapped : GoogleHomeSDK.AutomationValue {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.OptionalAutomationValue where Wrapped : GoogleHomeSDK.AutomationValue {
+}
+#endif
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.OptionalAutomationValueArray where Wrapped : GoogleHomeSDK.AutomationValueArray {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.OptionalAutomationValueArray where Wrapped : GoogleHomeSDK.AutomationValueArray {
+}
+#endif
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.OptionalComparable where Wrapped : Swift.Comparable {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.OptionalComparable where Wrapped : Swift.Comparable {
+}
+#endif
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.OptionalNumeric where Wrapped : Swift.Numeric {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.OptionalNumeric where Wrapped : Swift.Numeric {
+}
+#endif
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.OptionalSignedInteger where Wrapped : Swift.SignedInteger {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.OptionalSignedInteger where Wrapped : Swift.SignedInteger {
+}
+#endif
+#if compiler(>=5.3) && $NoncopyableGenerics
+extension Swift.Optional : GoogleHomeSDK.OptionalUnsignedInteger where Wrapped : Swift.UnsignedInteger {
+}
+#else
+extension Swift.Optional : GoogleHomeSDK.OptionalUnsignedInteger where Wrapped : Swift.UnsignedInteger {
+}
+#endif
+public struct AnyNodeCandidate : Swift.Hashable, Swift.Sendable {
+  public let node: any GoogleHomeSDK.NodeCandidate
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.AnyNodeCandidate, rhs: GoogleHomeSDK.AnyNodeCandidate) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct AttributeFieldDetails : GoogleHomeSDK.FieldDetails {
+  public let isOptional: Swift.Bool
+  public let constraint: GoogleHomeSDK.Constraint?
+  public let field: any GoogleHomeSDK.Field
+  public let isModifiable: Swift.Bool
+  public let isSubscribable: Swift.Bool
+  public init(field: any GoogleHomeSDK.Field, constraint: GoogleHomeSDK.Constraint?, isOptional: Swift.Bool, isModifiable: Swift.Bool, isSubscribable: Swift.Bool)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.AttributeFieldDetails, rhs: GoogleHomeSDK.AttributeFieldDetails) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol BaseAutomation : Swift.Identifiable, Swift.Sendable {
+  var id: Swift.String { get }
+  var structureID: Swift.String { get }
+  var name: Swift.String { get }
+  var description: Swift.String { get }
+  var isActive: Swift.Bool { get }
+  var automationGraph: GoogleHomeSDK.SequentialFlow? { get }
+}
+public typealias DraftAutomation = GoogleHomeSDK.BaseAutomation
+public protocol Automation : GoogleHomeSDK.BaseAutomation {
+  var isValid: Swift.Bool { get }
+  var isRunning: Swift.Bool { get }
+  var validationIssues: [GoogleHomeSDK.AutomationValidationIssue] { get }
+  var manuallyExecutable: Swift.Bool { get }
+  var compatibleWithSdk: Swift.Bool { get }
+  func execute() async throws
+  func stop() async throws
+  func update(_ block: (GoogleHomeSDK.MutableAutomationData) -> Swift.Void) async throws -> any GoogleHomeSDK.Automation
+}
+@_hasMissingDesignatedInitializers final public class MutableAutomationData {
+  final public var name: Swift.String
+  final public var description: Swift.String
+  final public var isActive: Swift.Bool
+  final public var automationGraph: GoogleHomeSDK.SequentialFlow?
+  @objc deinit
+}
+public struct AnyNode : GoogleHomeSDK.Node {
+  public var id: Swift.String {
+    get
+  }
+  public func cast<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.Node
+  public func `is`<T>(_ type: T.Type = T.self) -> Swift.Bool where T : GoogleHomeSDK.Node
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  public static func == (lhs: GoogleHomeSDK.AnyNode, rhs: GoogleHomeSDK.AnyNode) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol Node : Swift.Hashable, Swift.Identifiable, Swift.Sendable where Self.ID == Swift.String {
+  var id: Swift.String { get }
+  func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+}
+extension GoogleHomeSDK.Node {
+  public static func == (lhs: Self, rhs: Self) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  public func eraseToAnyNode() -> GoogleHomeSDK.AnyNode
+}
+public protocol Flow : GoogleHomeSDK.Node {
+  var nodes: [any GoogleHomeSDK.Node] { get }
+}
+public struct SequentialFlow : GoogleHomeSDK.Flow {
+  public let id: Swift.String
+  public let nodes: [any GoogleHomeSDK.Node]
+  public static func == (lhs: GoogleHomeSDK.SequentialFlow, rhs: GoogleHomeSDK.SequentialFlow) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct ParallelFlow : GoogleHomeSDK.Flow {
+  public let id: Swift.String
+  public let joinSemantic: GoogleHomeSDK.JoinSemanticType
+  public let nodes: [any GoogleHomeSDK.Node]
+  public static func == (lhs: GoogleHomeSDK.ParallelFlow, rhs: GoogleHomeSDK.ParallelFlow) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct SelectFlow : GoogleHomeSDK.Flow {
+  public let id: Swift.String
+  public let nodes: [any GoogleHomeSDK.Node]
+  public static func == (lhs: GoogleHomeSDK.SelectFlow, rhs: GoogleHomeSDK.SelectFlow) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct ManualStarter : GoogleHomeSDK.Node {
+  public let id: Swift.String
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Delay : GoogleHomeSDK.Node {
+  public let id: Swift.String
+  public let duration: Swift.Duration
+  public static func == (lhs: GoogleHomeSDK.Delay, rhs: GoogleHomeSDK.Delay) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Suppression : GoogleHomeSDK.Node {
+  public let id: Swift.String
+  public let duration: Swift.Duration
+  public static func == (lhs: GoogleHomeSDK.Suppression, rhs: GoogleHomeSDK.Suppression) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol Starter : GoogleHomeSDK.NodeWithOutput {
+  var entity: any GoogleHomeSDK.HomeObject { get }
+  var deviceType: (any GoogleHomeSDK.DeviceType.Type)? { get }
+  var deviceTypeID: Swift.String? { get }
+}
+public struct EventStarter : GoogleHomeSDK.Starter {
+  public let id: Swift.String
+  public let output: Swift.String
+  public let entity: any GoogleHomeSDK.HomeObject
+  public let deviceType: (any GoogleHomeSDK.DeviceType.Type)?
+  public let deviceTypeID: Swift.String?
+  public let event: any GoogleHomeSDK.Event.Type
+  public let eventID: Swift.String
+  public let parameters: [GoogleHomeSDK.Parameter]
+  public static func == (lhs: GoogleHomeSDK.EventStarter, rhs: GoogleHomeSDK.EventStarter) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.EventStarter : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public struct AttributeStarter : GoogleHomeSDK.Starter {
+  public let id: Swift.String
+  public let output: Swift.String
+  public let entity: any GoogleHomeSDK.HomeObject
+  public let deviceType: (any GoogleHomeSDK.DeviceType.Type)?
+  public let deviceTypeID: Swift.String?
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let traitID: Swift.String
+  public static func == (lhs: GoogleHomeSDK.AttributeStarter, rhs: GoogleHomeSDK.AttributeStarter) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.AttributeStarter : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public struct Condition : GoogleHomeSDK.Node {
+  public let id: Swift.String
+  public let expression: any GoogleHomeSDK.Expression
+  public let duration: Swift.Duration?
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.Condition : Swift.Equatable {
+  public static func == (lhs: GoogleHomeSDK.Condition, rhs: GoogleHomeSDK.Condition) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+}
+public struct Action : GoogleHomeSDK.Node {
+  public let id: Swift.String
+  public let entity: any GoogleHomeSDK.HomeObject
+  public let deviceType: (any GoogleHomeSDK.DeviceType.Type)?
+  public let deviceTypeID: Swift.String?
+  public let behavior: any GoogleHomeSDK.ActionBehavior
+  public static func == (lhs: GoogleHomeSDK.Action, rhs: GoogleHomeSDK.Action) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.Action : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public protocol ActionBehavior : Swift.Sendable {
+  func isEqualTo(_ other: any GoogleHomeSDK.ActionBehavior) -> Swift.Bool
+}
+public struct AutomationCommand : GoogleHomeSDK.ActionBehavior {
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let command: any GoogleHomeSDK.Command.Type
+  public let commandID: Swift.String
+  public let parameters: [GoogleHomeSDK.Parameter]
+  public func isEqualTo(_ other: any GoogleHomeSDK.ActionBehavior) -> Swift.Bool
+}
+extension GoogleHomeSDK.AutomationCommand : Swift.Equatable {
+  public static func == (lhs: GoogleHomeSDK.AutomationCommand, rhs: GoogleHomeSDK.AutomationCommand) -> Swift.Bool
+}
+extension GoogleHomeSDK.AutomationCommand : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public struct Update : GoogleHomeSDK.ActionBehavior {
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let traitID: Swift.String
+  public let updatedAttributes: [GoogleHomeSDK.Parameter]
+  public func isEqualTo(_ other: any GoogleHomeSDK.ActionBehavior) -> Swift.Bool
+}
+extension GoogleHomeSDK.Update : Swift.Equatable {
+  public static func == (lhs: GoogleHomeSDK.Update, rhs: GoogleHomeSDK.Update) -> Swift.Bool
+}
+extension GoogleHomeSDK.Update : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public struct StateReader : GoogleHomeSDK.NodeWithOutput {
+  public let id: Swift.String
+  public let entity: any GoogleHomeSDK.HomeObject
+  public let deviceType: (any GoogleHomeSDK.DeviceType.Type)?
+  public let deviceTypeID: Swift.String?
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let traitID: Swift.String
+  public let output: Swift.String
+  public static func == (lhs: GoogleHomeSDK.StateReader, rhs: GoogleHomeSDK.StateReader) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol NodeWithOutput : GoogleHomeSDK.Node {
+  var output: Swift.String { get }
+}
+public struct Parameter : Swift.Hashable, Swift.Sendable {
+  public let field: GoogleHomeSDK.AnyField
+  public let value: GoogleHomeSDK.AnyAutomationValue
+  public var associatedValue: Any? {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.Parameter, b: GoogleHomeSDK.Parameter) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum JoinSemanticType : Swift.Sendable {
+  case unspecified
+  case whenAllFinished
+  public static func == (a: GoogleHomeSDK.JoinSemanticType, b: GoogleHomeSDK.JoinSemanticType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Assignment : GoogleHomeSDK.NodeWithOutput {
+  public let id: Swift.String
+  public let output: Swift.String
+  public let expression: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Assignment, rhs: GoogleHomeSDK.Assignment) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public func automation(id: Swift.String = "", structureID: Swift.String = "", name: Swift.String = "", description: Swift.String = "UNSPECIFIED_DESCRIPTION", isActive: Swift.Bool = true, @GoogleHomeSDK.FlowBuilder _ sequentialNodes: () -> [any GoogleHomeSDK.Node]) -> any GoogleHomeSDK.BaseAutomation
+public func sequential(@GoogleHomeSDK.FlowBuilder _ nodes: () -> [any GoogleHomeSDK.Node]) -> GoogleHomeSDK.SequentialFlow
+public func parallel(@GoogleHomeSDK.FlowBuilder _ nodes: () -> [any GoogleHomeSDK.Node]) -> GoogleHomeSDK.ParallelFlow
+public func select(@GoogleHomeSDK.FlowBuilder _ nodes: () -> [any GoogleHomeSDK.Node]) -> GoogleHomeSDK.SelectFlow
+public func starter<T>(_ device: GoogleHomeSDK.HomeDevice, _ deviceType: any GoogleHomeSDK.DeviceType.Type, _ trait: T.Type) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.AttributeStarter> where T : GoogleHomeSDK.Trait
+public func starter<T>(_ structure: GoogleHomeSDK.Structure, _ trait: T.Type) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.AttributeStarter> where T : GoogleHomeSDK.Trait
+public func starter<T>(_ device: GoogleHomeSDK.HomeDevice, _ deviceType: any GoogleHomeSDK.DeviceType.Type, _ event: T.Type) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.EventStarter> where T : GoogleHomeSDK.Event
+public func starter<T>(_ structure: GoogleHomeSDK.Structure, _ event: T.Type) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.EventStarter> where T : GoogleHomeSDK.Event
+public func starter<T>(_ device: GoogleHomeSDK.HomeDevice, _ deviceType: any GoogleHomeSDK.DeviceType.Type, _ event: T.Type, @GoogleHomeSDK.ParameterBuilder<T> _ parameters: () -> [GoogleHomeSDK.Parameter]) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.EventStarter> where T : GoogleHomeSDK.Event
+public func starter<T>(_ structure: GoogleHomeSDK.Structure, _ event: T.Type, @GoogleHomeSDK.ParameterBuilder<T> _ parameters: () -> [GoogleHomeSDK.Parameter]) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.EventStarter> where T : GoogleHomeSDK.Event
+public func stateReader<T>(_ device: GoogleHomeSDK.HomeDevice, _ deviceType: any GoogleHomeSDK.DeviceType.Type, _ trait: T.Type) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.StateReader> where T : GoogleHomeSDK.Trait
+public func stateReader<T>(_ structure: GoogleHomeSDK.Structure, _ trait: T.Type) -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.StateReader> where T : GoogleHomeSDK.Trait
+public func variable<T>() -> GoogleHomeSDK.TypedReference<T, GoogleHomeSDK.Assignment>
+public func condition(for duration: Swift.Duration? = nil, _ expression: () -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.Condition
+public func manualStarter() -> GoogleHomeSDK.ManualStarter
+public func delay(for duration: Swift.Duration) -> GoogleHomeSDK.Delay
+public func suppress(for duration: Swift.Duration) -> GoogleHomeSDK.Suppression
+public func action(_ device: GoogleHomeSDK.HomeDevice, _ deviceType: (any GoogleHomeSDK.DeviceType.Type), _ behavior: () -> any GoogleHomeSDK.ActionBehavior) -> GoogleHomeSDK.Action
+public func action(_ structure: GoogleHomeSDK.Structure, _ behavior: () -> any GoogleHomeSDK.ActionBehavior) -> GoogleHomeSDK.Action
+public func update<T>(_ trait: T.Type = T.self, _ block: (GoogleHomeSDK.Updater<T>) -> Swift.Void) -> GoogleHomeSDK.Update where T : GoogleHomeSDK.Trait
+final public class Updater<T> where T : GoogleHomeSDK.Trait {
+  final public let trait: T.Type
+  final public var attributesToUpdate: [GoogleHomeSDK.AnyField : GoogleHomeSDK.Parameter] {
+    get
+  }
+  public init(_ trait: T.Type = T.self)
+  @objc deinit
+}
+@_functionBuilder public struct FlowBuilder {
+  public static func buildBlock(_ nodes: [any GoogleHomeSDK.Node]...) -> [any GoogleHomeSDK.Node]
+  public static func buildEither(first: [any GoogleHomeSDK.Node]?) -> [any GoogleHomeSDK.Node]
+  public static func buildEither(second: [any GoogleHomeSDK.Node]?) -> [any GoogleHomeSDK.Node]
+  public static func buildOptional(_ nodes: [any GoogleHomeSDK.Node]?) -> [any GoogleHomeSDK.Node]
+  public static func buildArray(_ nodes: [[any GoogleHomeSDK.Node]]) -> [any GoogleHomeSDK.Node]
+  public static func buildExpression(_ node: any GoogleHomeSDK.Node) -> [any GoogleHomeSDK.Node]
+  public static func buildExpression(_ nodes: [any GoogleHomeSDK.Node]) -> [any GoogleHomeSDK.Node]
+  public static func buildExpression<T, N>(_ reference: GoogleHomeSDK.TypedReference<T, N>) -> [any GoogleHomeSDK.Node] where N : GoogleHomeSDK.NodeWithOutput
+}
+public struct TypedReference<T, N> : Swift.Sendable where N : GoogleHomeSDK.NodeWithOutput {
+  public let reference: GoogleHomeSDK.Reference
+}
+extension GoogleHomeSDK.TypedReference where N : GoogleHomeSDK.Starter {
+  public func toStarter() -> any GoogleHomeSDK.Starter
+}
+extension GoogleHomeSDK.TypedReference where N == GoogleHomeSDK.StateReader {
+  public func toStateReader() -> GoogleHomeSDK.StateReader
+}
+extension GoogleHomeSDK.TypedReference where N == GoogleHomeSDK.EventStarter {
+  public func toEventStarter() -> GoogleHomeSDK.EventStarter
+}
+extension GoogleHomeSDK.TypedReference where N == GoogleHomeSDK.AttributeStarter {
+  public func toAttributeStarter() -> GoogleHomeSDK.AttributeStarter
+}
+extension GoogleHomeSDK.TypedReference where N == GoogleHomeSDK.Assignment {
+  public mutating func assign(_ expression: any GoogleHomeSDK.Expression) -> GoogleHomeSDK.TypedReference<T, N>
+  public mutating func assign(_ value: any GoogleHomeSDK.AutomationValue) -> GoogleHomeSDK.TypedReference<T, N>
+}
+public struct TypedParameter<Container> {
+  public let parameter: GoogleHomeSDK.Parameter
+  public init(parameter: GoogleHomeSDK.Parameter)
+}
+@_functionBuilder public struct ParameterBuilder<Container> {
+  public static func buildBlock(_ typedParameter: GoogleHomeSDK.TypedParameter<Container>...) -> [GoogleHomeSDK.Parameter]
+}
+@_Concurrency.MainActor public protocol AutomationManager : Swift.Sendable {
+  @_Concurrency.MainActor func createAutomation(_ automation: any GoogleHomeSDK.BaseAutomation) async throws -> any GoogleHomeSDK.Automation
+  @_Concurrency.MainActor func deleteAutomation(id: Swift.String) async throws
+  @_Concurrency.MainActor func deleteAutomation(_ automation: any GoogleHomeSDK.Automation) async throws
+  @_Concurrency.MainActor func listAutomations() async throws -> [any GoogleHomeSDK.Automation]
+}
+public struct AutomationValidationIssue : Swift.Equatable, Swift.Sendable {
+  public var node: any GoogleHomeSDK.Node
+  public var severity: GoogleHomeSDK.ValidationIssueSeverity
+  public var issueType: GoogleHomeSDK.ValidationIssueType
+  public init(node: any GoogleHomeSDK.Node, severity: GoogleHomeSDK.ValidationIssueSeverity, issueType: GoogleHomeSDK.ValidationIssueType)
+  public static func == (lhs: GoogleHomeSDK.AutomationValidationIssue, rhs: GoogleHomeSDK.AutomationValidationIssue) -> Swift.Bool
+}
+public enum BehaviorID : Swift.Equatable, Swift.Sendable {
+  case command(id: Swift.String)
+  case event(id: Swift.String)
+  case trait(id: Swift.String)
+  public static func == (lhs: GoogleHomeSDK.BehaviorID, rhs: GoogleHomeSDK.BehaviorID) -> Swift.Bool
+}
+public enum AttributeID : Swift.Equatable, Swift.Sendable {
+  case id(_: Swift.UInt32)
+  case name(_: Swift.String)
+  public static func == (lhs: GoogleHomeSDK.AttributeID, rhs: GoogleHomeSDK.AttributeID) -> Swift.Bool
+}
+public enum ValidationIssueSeverity : Swift.Sendable {
+  case warning
+  case error
+  case unknown
+  public static func == (a: GoogleHomeSDK.ValidationIssueSeverity, b: GoogleHomeSDK.ValidationIssueSeverity) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ValidationIssueType : Swift.Equatable, Swift.Sendable {
+  case unknown
+  case conditionDurationOutOfRange(duration: Swift.Duration)
+  case delayDurationOutOfRange(duration: Swift.Duration)
+  case duplicateStarterNode(_: GoogleHomeSDK.DuplicateStarterNode)
+  case invalidArgumentCount(_: GoogleHomeSDK.InvalidArgumentCount)
+  case invalidCommand(commandID: Swift.String, expectedBehaviorType: Swift.String)
+  case invalidDuration(duration: Swift.Duration)
+  case invalidEvent(eventID: Swift.String, expectedBehaviorType: Swift.String)
+  case invalidOperand(_: GoogleHomeSDK.InvalidOperand)
+  case invalidParameter(parameterName: Swift.String, id: GoogleHomeSDK.BehaviorID)
+  case invalidTrait(traitID: Swift.String, expectedBehaviorType: Swift.String)
+  case invalidValue(value: GoogleHomeSDK.AnyAutomationValue?)
+  case misplacedSelectFlow
+  case misplacedStarterNode
+  case missingRequiredFields(missingFields: [Swift.String])
+  case missingRequiredParameters(parameterNames: [Swift.String], id: GoogleHomeSDK.BehaviorID)
+  case missingStarterNode
+  case multipleManualStarters
+  case outputNotAccessible(output: Swift.String)
+  case outputTypeMismatch(_: GoogleHomeSDK.OutputTypeMismatch)
+  case outputReinitialized(_: GoogleHomeSDK.OutputReinitialized)
+  case readOnlyAttribute(traitID: Swift.String, attributeName: Swift.String)
+  case suppressionDurationOutOfRange(duration: Swift.Duration)
+  case unsubscribableAttribute(traitID: Swift.String, attributeName: Swift.String)
+  case unsupportedActionBehavior(behaviorType: Swift.String)
+  case unsupportedNodeOutput(nodeType: Swift.String)
+  case unsupportedOperator
+  case unsupportedStarterBehavior(behaviorType: Swift.String)
+  case unsupportedStateReaderBehavior(behaviorType: Swift.String)
+  case unsupportedSubNodeType(parentNodeType: Swift.String, subNodeType: Swift.String)
+  case invalidArgumentsForOperator(_: GoogleHomeSDK.InvalidArgumentsForOperator)
+  case invalidConditionType(_: GoogleHomeSDK.InvalidConditionType)
+  case invalidEntityExpressionType(_: GoogleHomeSDK.InvalidEntityExpressionType)
+  case invalidField(_: GoogleHomeSDK.InvalidField)
+  case invalidNullParameterValue(field: GoogleHomeSDK.AttributeID, expected: Swift.String)
+  case invalidParameterType(field: GoogleHomeSDK.AttributeID, actual: Swift.String, expected: Swift.String)
+  case invalidReference(_: GoogleHomeSDK.InvalidReference)
+  case invalidEntity(entityObjectID: Swift.String, entityType: Swift.String)
+  case unsupportedEntityCommand(commandID: Swift.String, entityObjectID: Swift.String, entityType: Swift.String, unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason])
+  case unsupportedEntityEvent(eventID: Swift.String, entityObjectID: Swift.String, entityType: Swift.String, unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason])
+  case unsupportedEntityParameter(parameterName: Swift.String, fieldID: Swift.UInt32, behaviorID: GoogleHomeSDK.BehaviorID, entityObjectID: Swift.String, entityType: Swift.String)
+  case unsupportedEntityParameterValue(parameterName: Swift.String, fieldID: Swift.UInt32, behaviorID: GoogleHomeSDK.BehaviorID, entityObjectID: Swift.String, entityType: Swift.String, value: GoogleHomeSDK.AnyAutomationValue?, valueConstraint: GoogleHomeSDK.Constraint?)
+  case unsupportedEntityTrait(traitID: Swift.String, entityObjectID: Swift.String, entityType: Swift.String, unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason])
+  case unsupportedEntityType(entityType: Swift.String, entityObjectID: Swift.String, supportedTypes: [Swift.String])
+  case blockedAction(entityType: Swift.String, actionType: Swift.String)
+  case automationTooLarge(byteCount: Swift.UInt64, byteCountLimit: Swift.UInt64)
+  case tooManyNodes(nodeCount: Swift.UInt32, nodeCountLimit: Swift.UInt32)
+  case tooManyOperations(operationCount: Swift.UInt32, operationCountLimit: Swift.UInt32)
+  public static func == (a: GoogleHomeSDK.ValidationIssueType, b: GoogleHomeSDK.ValidationIssueType) -> Swift.Bool
+}
+public struct OutputTypeMismatch : Swift.Equatable, Swift.Sendable {
+  public let output: Swift.String
+  public let otherNodes: [any GoogleHomeSDK.Node]
+  public static func == (lhs: GoogleHomeSDK.OutputTypeMismatch, rhs: GoogleHomeSDK.OutputTypeMismatch) -> Swift.Bool
+}
+public struct OutputReinitialized : Swift.Equatable, Swift.Sendable {
+  public let output: Swift.String
+  public let otherNodes: [any GoogleHomeSDK.Node]
+  public static func == (lhs: GoogleHomeSDK.OutputReinitialized, rhs: GoogleHomeSDK.OutputReinitialized) -> Swift.Bool
+}
+public struct DuplicateStarterNode : Swift.Equatable, Swift.Sendable {
+  public let otherDuplicatedStarterNodes: [any GoogleHomeSDK.Node]
+  public static func == (lhs: GoogleHomeSDK.DuplicateStarterNode, rhs: GoogleHomeSDK.DuplicateStarterNode) -> Swift.Bool
+}
+public struct InvalidArgumentCount : Swift.Equatable, Swift.Sendable {
+  public let `operator`: Swift.String
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public let minOperands: Swift.UInt32
+  public let maxOperands: Swift.UInt32
+  public static func == (lhs: GoogleHomeSDK.InvalidArgumentCount, rhs: GoogleHomeSDK.InvalidArgumentCount) -> Swift.Bool
+}
+public struct InvalidOperand : Swift.Equatable, Swift.Sendable {
+  public let `operator`: Swift.String
+  public let operandIndex: Swift.UInt32
+  public let operandType: Swift.String
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public let validOperandTypes: [Swift.String]
+  public static func == (lhs: GoogleHomeSDK.InvalidOperand, rhs: GoogleHomeSDK.InvalidOperand) -> Swift.Bool
+}
+public struct InvalidArgumentsForOperator : Swift.Equatable, Swift.Sendable {
+  public let `operator`: Swift.String
+  public let actual: [Swift.String]
+  public let candidates: [[Swift.String]]
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public static func == (lhs: GoogleHomeSDK.InvalidArgumentsForOperator, rhs: GoogleHomeSDK.InvalidArgumentsForOperator) -> Swift.Bool
+}
+public struct InvalidConditionType : Swift.Equatable, Swift.Sendable {
+  public let actual: Swift.String
+  public let expected: Swift.String
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public static func == (lhs: GoogleHomeSDK.InvalidConditionType, rhs: GoogleHomeSDK.InvalidConditionType) -> Swift.Bool
+}
+public struct InvalidEntityExpressionType : Swift.Equatable, Swift.Sendable {
+  public let actual: Swift.String
+  public let expected: [Swift.String]
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public static func == (lhs: GoogleHomeSDK.InvalidEntityExpressionType, rhs: GoogleHomeSDK.InvalidEntityExpressionType) -> Swift.Bool
+}
+public struct InvalidField : Swift.Equatable, Swift.Sendable {
+  public let field: GoogleHomeSDK.AttributeID
+  public let operandIndex: Swift.UInt32
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public static func == (lhs: GoogleHomeSDK.InvalidField, rhs: GoogleHomeSDK.InvalidField) -> Swift.Bool
+}
+public struct InvalidReference : Swift.Equatable, Swift.Sendable {
+  public let reference: Swift.String
+  public let expression: (any GoogleHomeSDK.IdentifiableExpression)?
+  public static func == (lhs: GoogleHomeSDK.InvalidReference, rhs: GoogleHomeSDK.InvalidReference) -> Swift.Bool
+}
+public struct UnsupportedCandidateReason : Swift.Hashable, Swift.Equatable, Swift.Sendable {
+  public let reasonType: GoogleHomeSDK.UnsupportedCandidateReasonType
+  public init(reasonType: GoogleHomeSDK.UnsupportedCandidateReasonType)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.UnsupportedCandidateReason, b: GoogleHomeSDK.UnsupportedCandidateReason) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum PresenceSensingSetupType : Swift.Sendable {
+  case unspecified
+  case structurePresence
+  case userPresence
+  case unknown
+  public static func == (a: GoogleHomeSDK.PresenceSensingSetupType, b: GoogleHomeSDK.PresenceSensingSetupType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum UnsupportedCandidateReasonType : Swift.Hashable, Swift.Sendable, Swift.Equatable {
+  case missingStructureAddressSetup
+  case missingPresenceSensingSetup(setupType: GoogleHomeSDK.PresenceSensingSetupType)
+  case missingSubscription
+  case unknown
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.UnsupportedCandidateReasonType, b: GoogleHomeSDK.UnsupportedCandidateReasonType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CommandCandidate : GoogleHomeSDK.NodeCandidate, @unchecked Swift.Sendable {
+  public let homeObject: any GoogleHomeSDK.HomeObject
+  public let deviceTypes: [any GoogleHomeSDK.DeviceType.Type]
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let command: any GoogleHomeSDK.Command.Type
+  public let fieldDetails: [GoogleHomeSDK.AnyField : GoogleHomeSDK.CommandFieldDetails]
+  public let unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason]
+  public init(homeObject: any GoogleHomeSDK.HomeObject, deviceTypes: [any GoogleHomeSDK.DeviceType.Type], trait: any GoogleHomeSDK.Trait.Type, command: any GoogleHomeSDK.Command.Type, fieldDetails: [GoogleHomeSDK.AnyField : GoogleHomeSDK.CommandFieldDetails], unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason])
+  public typealias FieldDetailsType = GoogleHomeSDK.CommandFieldDetails
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.CommandCandidate {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.CommandCandidate, rhs: GoogleHomeSDK.CommandCandidate) -> Swift.Bool
+}
+extension GoogleHomeSDK.CommandCandidate : GoogleHomeSDK.ActionCandidate {
+}
+public struct CommandFieldDetails : GoogleHomeSDK.FieldDetails {
+  public let isOptional: Swift.Bool
+  public let constraint: GoogleHomeSDK.Constraint?
+  public let field: any GoogleHomeSDK.Field
+  public init(field: any GoogleHomeSDK.Field, constraint: GoogleHomeSDK.Constraint?, isOptional: Swift.Bool)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.CommandFieldDetails, rhs: GoogleHomeSDK.CommandFieldDetails) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum Constraint : Swift.Hashable, Swift.Equatable, Swift.Sendable {
+  case booleanConstraint
+  case byteConstraint(minLength: Swift.UInt32, maxLength: Swift.UInt32)
+  case stringConstraint(minLength: Swift.UInt32 = 0, maxLength: Swift.UInt32 = 256, disallowedValues: [Swift.String], disallowedValuesCaseSensitive: Swift.Bool = false, regex: Swift.String = "")
+  case stringAllowListConstraint(values: [Swift.String], caseSensitive: Swift.Bool = false)
+  indirect case listConstraint(elementConstraint: GoogleHomeSDK.Constraint)
+  case enumConstraint(allowedSet: Swift.Set<GoogleHomeSDK.AnyEnum>)
+  case dayOfWeekConstraint(allowedSet: Swift.Set<Foundation.Locale.Weekday>)
+  case structConstraint(structFieldConstraint: [GoogleHomeSDK.AnyField : GoogleHomeSDK.Constraint])
+  case intRangeConstraint(lowerBound: Swift.Int64, upperBound: Swift.Int64, step: Swift.Int64, unit: GoogleHomeSDK.ConstraintUnit)
+  case uintRangeConstraint(lowerBound: Swift.UInt64, upperBound: Swift.UInt64, step: Swift.UInt64, unit: GoogleHomeSDK.ConstraintUnit)
+  case doubleRangeConstraint(lowerBound: Swift.Double, upperBound: Swift.Double, step: Swift.Double, unit: GoogleHomeSDK.ConstraintUnit)
+  case uintSetConstraint(allowedSet: Swift.Set<Swift.UInt64>, unit: GoogleHomeSDK.ConstraintUnit)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.Constraint, b: GoogleHomeSDK.Constraint) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct StructFieldConstraint : Swift.Hashable, Swift.Equatable, Swift.Sendable {
+  public let id: Swift.UInt32
+  public let name: Swift.String
+  public let constraint: GoogleHomeSDK.Constraint
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.StructFieldConstraint, b: GoogleHomeSDK.StructFieldConstraint) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum BaseUnit : Swift.Int32, Swift.Hashable, Swift.Equatable, Swift.Sendable {
+  case unspecified
+  case meters
+  case seconds
+  case percent
+  case celsius
+  case mired
+  case partsPerMillion
+  case kgPerCubicMeter
+  case particlesPerCubicMeter
+  case becquerelPerCubicMeter
+  case degrees
+  case kelvin
+  case ampere
+  case wattHour
+  case airQualityIndex
+  case watt
+  public init?(rawValue: Swift.Int32)
+  public typealias RawValue = Swift.Int32
+  public var rawValue: Swift.Int32 {
+    get
+  }
+}
+public struct ConstraintUnit : Swift.Hashable, Swift.Equatable, Swift.Sendable {
+  public let baseUnit: GoogleHomeSDK.BaseUnit
+  public let scale: Swift.Double
+  public init(baseUnit: GoogleHomeSDK.BaseUnit, scale: Swift.Double)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.ConstraintUnit, b: GoogleHomeSDK.ConstraintUnit) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol DiscoveryController : Swift.Sendable {
+  func candidates(for structure: GoogleHomeSDK.Structure, includeDescendants: Swift.Bool) -> any GoogleHomeSDK.Query<GoogleHomeSDK.AnyNodeCandidate>
+  func candidates(for device: GoogleHomeSDK.HomeDevice) throws -> any GoogleHomeSDK.Query<GoogleHomeSDK.AnyNodeCandidate>
+  func refresh(structureID: Swift.String) async throws
+}
+public struct EventCandidate : GoogleHomeSDK.NodeCandidate, @unchecked Swift.Sendable {
+  public let homeObject: any GoogleHomeSDK.HomeObject
+  public let deviceTypes: [any GoogleHomeSDK.DeviceType.Type]
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let fieldDetails: [GoogleHomeSDK.AnyField : GoogleHomeSDK.EventFieldDetails]
+  public let unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason]
+  public let event: any GoogleHomeSDK.Event.Type
+  public init(homeObject: any GoogleHomeSDK.HomeObject, deviceTypes: [any GoogleHomeSDK.DeviceType.Type], trait: any GoogleHomeSDK.Trait.Type, event: any GoogleHomeSDK.Event.Type, fieldDetails: [GoogleHomeSDK.AnyField : GoogleHomeSDK.EventFieldDetails], unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason])
+  public typealias FieldDetailsType = GoogleHomeSDK.EventFieldDetails
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.EventCandidate {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.EventCandidate, rhs: GoogleHomeSDK.EventCandidate) -> Swift.Bool
+}
+extension GoogleHomeSDK.EventCandidate : GoogleHomeSDK.StarterCandidate {
+}
+public struct EventFieldDetails : GoogleHomeSDK.FieldDetails {
+  public let isOptional: Swift.Bool
+  public let constraint: GoogleHomeSDK.Constraint?
+  public let field: any GoogleHomeSDK.Field
+  public init(field: any GoogleHomeSDK.Field, constraint: GoogleHomeSDK.Constraint?, isOptional: Swift.Bool)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.EventFieldDetails, rhs: GoogleHomeSDK.EventFieldDetails) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol Expression : Swift.Sendable {
+  func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+}
+public struct AnyExpression : GoogleHomeSDK.Expression, Swift.Equatable {
+  public func cast<T>(_ type: T.Type = T.self) -> T? where T : GoogleHomeSDK.Expression
+  public func `is`<T>(_ type: T.Type = T.self) -> Swift.Bool where T : GoogleHomeSDK.Expression
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  public static func == (lhs: GoogleHomeSDK.AnyExpression, rhs: GoogleHomeSDK.AnyExpression) -> Swift.Bool
+}
+public protocol IdentifiableExpression : GoogleHomeSDK.Expression, Swift.Identifiable where Self.ID == Swift.String {
+  var id: Swift.String { get }
+}
+public protocol BinaryExpression : GoogleHomeSDK.IdentifiableExpression {
+  var operand1: any GoogleHomeSDK.Expression { get }
+  var operand2: any GoogleHomeSDK.Expression { get }
+}
+public protocol TernaryExpression : GoogleHomeSDK.IdentifiableExpression {
+  var operand1: any GoogleHomeSDK.Expression { get }
+  var operand2: any GoogleHomeSDK.Expression { get }
+  var operand3: any GoogleHomeSDK.Expression { get }
+}
+public protocol UnaryExpression : GoogleHomeSDK.IdentifiableExpression {
+  var operand: any GoogleHomeSDK.Expression { get }
+}
+public struct Constant : GoogleHomeSDK.Expression, Swift.Equatable {
+  public let value: GoogleHomeSDK.AnyAutomationValue
+  public static func == (lhs: GoogleHomeSDK.Constant, rhs: GoogleHomeSDK.Constant) -> Swift.Bool
+  public var associatedValue: Any? {
+    get
+  }
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+}
+public struct Reference : GoogleHomeSDK.Expression, Swift.Equatable {
+  public enum ReferenceType : Swift.Sendable {
+    case node(any GoogleHomeSDK.NodeWithOutput)
+    case declaration(GoogleHomeSDK.ReferenceDeclaration)
+  }
+  public let referenceValue: GoogleHomeSDK.Reference.ReferenceType
+  public static func == (lhs: GoogleHomeSDK.Reference, rhs: GoogleHomeSDK.Reference) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+}
+public struct ReferenceDeclaration : GoogleHomeSDK.Expression, Swift.Equatable {
+  public let variable: Swift.String
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  public static func == (a: GoogleHomeSDK.ReferenceDeclaration, b: GoogleHomeSDK.ReferenceDeclaration) -> Swift.Bool
+}
+public struct Plus : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Plus, rhs: GoogleHomeSDK.Plus) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Minus : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Minus, rhs: GoogleHomeSDK.Minus) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Multiply : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Multiply, rhs: GoogleHomeSDK.Multiply) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Divide : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Divide, rhs: GoogleHomeSDK.Divide) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Equals : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Equals, rhs: GoogleHomeSDK.Equals) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct NotEquals : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.NotEquals, rhs: GoogleHomeSDK.NotEquals) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Between : GoogleHomeSDK.TernaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public let operand3: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Between, rhs: GoogleHomeSDK.Between) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct BetweenTimes : GoogleHomeSDK.TernaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public let operand3: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.BetweenTimes, rhs: GoogleHomeSDK.BetweenTimes) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct GreaterThan : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.GreaterThan, rhs: GoogleHomeSDK.GreaterThan) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct LessThan : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.LessThan, rhs: GoogleHomeSDK.LessThan) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct GreaterThanOrEquals : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.GreaterThanOrEquals, rhs: GoogleHomeSDK.GreaterThanOrEquals) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct LessThanOrEquals : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.LessThanOrEquals, rhs: GoogleHomeSDK.LessThanOrEquals) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct FieldSelect : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let from: any GoogleHomeSDK.Expression
+  public let selected: [GoogleHomeSDK.AnyField]
+  public static func == (lhs: GoogleHomeSDK.FieldSelect, rhs: GoogleHomeSDK.FieldSelect) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct And : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.And, rhs: GoogleHomeSDK.And) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Or : GoogleHomeSDK.BinaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand1: any GoogleHomeSDK.Expression
+  public let operand2: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Or, rhs: GoogleHomeSDK.Or) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct Not : GoogleHomeSDK.UnaryExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let operand: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.Not, rhs: GoogleHomeSDK.Not) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListSize : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let listExpression: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListSize, rhs: GoogleHomeSDK.ListSize) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListIn : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let element: any GoogleHomeSDK.Expression
+  public let listExpression: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListIn, rhs: GoogleHomeSDK.ListIn) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListContains : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let listExpression: any GoogleHomeSDK.Expression
+  public let element: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListContains, rhs: GoogleHomeSDK.ListContains) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListGet : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let listExpression: any GoogleHomeSDK.Expression
+  public let index: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListGet, rhs: GoogleHomeSDK.ListGet) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public protocol Comprehension : GoogleHomeSDK.IdentifiableExpression {
+  var rangeExpression: any GoogleHomeSDK.Expression { get }
+  var lambdaVar: GoogleHomeSDK.ReferenceDeclaration { get }
+  var lambdaBody: any GoogleHomeSDK.Expression { get }
+}
+public struct ListAllMatch : GoogleHomeSDK.Comprehension, Swift.Equatable {
+  public let id: Swift.String
+  public let rangeExpression: any GoogleHomeSDK.Expression
+  public let lambdaVar: GoogleHomeSDK.ReferenceDeclaration
+  public let lambdaBody: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListAllMatch, rhs: GoogleHomeSDK.ListAllMatch) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListAnyMatch : GoogleHomeSDK.Comprehension, Swift.Equatable {
+  public let id: Swift.String
+  public let rangeExpression: any GoogleHomeSDK.Expression
+  public let lambdaVar: GoogleHomeSDK.ReferenceDeclaration
+  public let lambdaBody: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListAnyMatch, rhs: GoogleHomeSDK.ListAnyMatch) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListNoneMatch : GoogleHomeSDK.Comprehension, Swift.Equatable {
+  public let id: Swift.String
+  public let rangeExpression: any GoogleHomeSDK.Expression
+  public let lambdaVar: GoogleHomeSDK.ReferenceDeclaration
+  public let lambdaBody: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListNoneMatch, rhs: GoogleHomeSDK.ListNoneMatch) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListMap : GoogleHomeSDK.Comprehension, Swift.Equatable {
+  public let id: Swift.String
+  public let rangeExpression: any GoogleHomeSDK.Expression
+  public let lambdaVar: GoogleHomeSDK.ReferenceDeclaration
+  public let lambdaBody: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListMap, rhs: GoogleHomeSDK.ListMap) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct ListFilter : GoogleHomeSDK.Comprehension, Swift.Equatable {
+  public let id: Swift.String
+  public let rangeExpression: any GoogleHomeSDK.Expression
+  public let lambdaVar: GoogleHomeSDK.ReferenceDeclaration
+  public let lambdaBody: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.ListFilter, rhs: GoogleHomeSDK.ListFilter) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct MapKeys : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let mapExpression: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.MapKeys, rhs: GoogleHomeSDK.MapKeys) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct MapValues : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let mapExpression: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.MapValues, rhs: GoogleHomeSDK.MapValues) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct MapSize : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public let mapExpression: any GoogleHomeSDK.Expression
+  public static func == (lhs: GoogleHomeSDK.MapSize, rhs: GoogleHomeSDK.MapSize) -> Swift.Bool
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public struct UnknownExpression : GoogleHomeSDK.IdentifiableExpression, Swift.Equatable {
+  public let id: Swift.String
+  public func isEqual(to other: any GoogleHomeSDK.Expression) -> Swift.Bool
+  public static func == (a: GoogleHomeSDK.UnknownExpression, b: GoogleHomeSDK.UnknownExpression) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+}
+public protocol FieldDetails : Swift.Hashable {
+  var isOptional: Swift.Bool { get }
+  var constraint: GoogleHomeSDK.Constraint? { get }
+  var field: any GoogleHomeSDK.Field { get }
+}
+public protocol NodeCandidate : Swift.Hashable, Swift.Sendable {
+  associatedtype FieldDetailsType : GoogleHomeSDK.FieldDetails
+  var homeObject: any GoogleHomeSDK.HomeObject { get }
+  var deviceTypes: [any GoogleHomeSDK.DeviceType.Type] { get }
+  var trait: any GoogleHomeSDK.Trait.Type { get }
+  var fieldDetails: [GoogleHomeSDK.AnyField : Self.FieldDetailsType] { get }
+  var unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason] { get }
+}
+public protocol StarterCandidate : GoogleHomeSDK.NodeCandidate {
+}
+public protocol StateReaderCandidate : GoogleHomeSDK.NodeCandidate {
+}
+public protocol ActionCandidate : GoogleHomeSDK.NodeCandidate {
+}
+extension GoogleHomeSDK.Structure : GoogleHomeSDK.AutomationManager {
+  @_Concurrency.MainActor public func createAutomation(_ automation: any GoogleHomeSDK.BaseAutomation) async throws -> any GoogleHomeSDK.Automation
+  @_Concurrency.MainActor public func listAutomations() async throws -> [any GoogleHomeSDK.Automation]
+  @_Concurrency.MainActor public func deleteAutomation(id: Swift.String) async throws
+  @_Concurrency.MainActor public func deleteAutomation(_ automation: any GoogleHomeSDK.Automation) async throws
+  @_Concurrency.MainActor public func candidates(includeDescendants: Swift.Bool = true) -> any GoogleHomeSDK.Query<GoogleHomeSDK.AnyNodeCandidate>
+  @_Concurrency.MainActor public func candidates(for device: GoogleHomeSDK.HomeDevice) throws -> any GoogleHomeSDK.Query<GoogleHomeSDK.AnyNodeCandidate>
+}
+public struct TraitAttributesCandidate : GoogleHomeSDK.NodeCandidate, @unchecked Swift.Sendable {
+  public let homeObject: any GoogleHomeSDK.HomeObject
+  public let deviceTypes: [any GoogleHomeSDK.DeviceType.Type]
+  public let trait: any GoogleHomeSDK.Trait.Type
+  public let fieldDetails: [GoogleHomeSDK.AnyField : GoogleHomeSDK.AttributeFieldDetails]
+  public let unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason]
+  public init(homeObject: any GoogleHomeSDK.HomeObject, deviceTypes: [any GoogleHomeSDK.DeviceType.Type], trait: any GoogleHomeSDK.Trait.Type, fieldDetails: [GoogleHomeSDK.AnyField : GoogleHomeSDK.AttributeFieldDetails], unsupportedReasons: [GoogleHomeSDK.UnsupportedCandidateReason])
+  public typealias FieldDetailsType = GoogleHomeSDK.AttributeFieldDetails
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension GoogleHomeSDK.TraitAttributesCandidate {
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: GoogleHomeSDK.TraitAttributesCandidate, rhs: GoogleHomeSDK.TraitAttributesCandidate) -> Swift.Bool
+}
+extension GoogleHomeSDK.TraitAttributesCandidate : GoogleHomeSDK.StarterCandidate {
+}
+extension GoogleHomeSDK.TraitAttributesCandidate : GoogleHomeSDK.StateReaderCandidate {
+}
+extension GoogleHomeSDK.TraitAttributesCandidate : GoogleHomeSDK.ActionCandidate {
+}
+public struct TypedExpression<V> : Swift.Sendable where V : GoogleHomeSDK.AutomationValue {
+  public let expression: any GoogleHomeSDK.Expression
+}
+extension GoogleHomeSDK.TypedExpression where V : Swift.Numeric {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func plus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func multiply(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func multiply(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func divide(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func divide(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V : GoogleHomeSDK.OptionalNumeric {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func plus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func multiply(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func multiply(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func divide(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func divide(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.String {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func plus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.String? {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func plus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.TimeOfDay {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<Swift.Duration>) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay>
+  public func plus(_ other: Swift.Duration) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay>
+  public func minus(_ other: GoogleHomeSDK.TypedExpression<Swift.Duration>) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay>
+  public func minus(_ other: Swift.Duration) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.TimeOfDay? {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<Swift.Duration?>) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay?>
+  public func plus(_ other: Swift.Duration?) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay?>
+  public func minus(_ other: GoogleHomeSDK.TypedExpression<Swift.Duration?>) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay?>
+  public func minus(_ other: Swift.Duration?) -> GoogleHomeSDK.TypedExpression<GoogleHomeSDK.TimeOfDay?>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Duration {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func plus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Duration? {
+  public func plus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func plus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<V>
+  public func minus(_ other: V) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression {
+  public func equals(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func equals(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func notEquals(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func notEquals(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V : Swift.Comparable {
+  public func greaterThan(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func greaterThan(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func greaterThanOrEquals(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func greaterThanOrEquals(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThan(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThan(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThanOrEquals(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThanOrEquals(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V : GoogleHomeSDK.OptionalComparable {
+  public func greaterThan(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func greaterThan(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func greaterThanOrEquals(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func greaterThanOrEquals(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThan(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThan(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThanOrEquals(_ other: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func lessThanOrEquals(_ other: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.TimeOfDay? {
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.TimeOfDay {
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.LocalDate {
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.YearMonth {
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V == GoogleHomeSDK.MonthDay {
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: V, _ parameter2: GoogleHomeSDK.TypedExpression<V>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func between(_ parameter1: GoogleHomeSDK.TypedExpression<V>, _ parameter2: V) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression {
+  public func inList(_ list: GoogleHomeSDK.TypedExpression<[V]>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func inList(_ list: GoogleHomeSDK.TypedExpression<[V]?>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func inList(_ list: [V]) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V : GoogleHomeSDK.AutomationValueArray {
+  public var size: GoogleHomeSDK.TypedExpression<Swift.Int> {
+    get
+  }
+  public func contains(_ element: GoogleHomeSDK.TypedExpression<V.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func contains(_ element: V.Element) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.Int>) -> GoogleHomeSDK.TypedExpression<V.Element?> {
+    get
+  }
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.Int?>) -> GoogleHomeSDK.TypedExpression<V.Element?> {
+    get
+  }
+  public subscript(index: Swift.Int) -> GoogleHomeSDK.TypedExpression<V.Element?> {
+    get
+  }
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.UInt>) -> GoogleHomeSDK.TypedExpression<V.Element?> {
+    get
+  }
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.UInt?>) -> GoogleHomeSDK.TypedExpression<V.Element?> {
+    get
+  }
+  public subscript(index: Swift.UInt) -> GoogleHomeSDK.TypedExpression<V.Element?> {
+    get
+  }
+  public func any(where predicate: (GoogleHomeSDK.TypedExpression<V.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func all(where predicate: (GoogleHomeSDK.TypedExpression<V.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func none(where predicate: (GoogleHomeSDK.TypedExpression<V.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func map<U>(_ transform: (GoogleHomeSDK.TypedExpression<V.Element>) -> GoogleHomeSDK.TypedExpression<U>) -> GoogleHomeSDK.TypedExpression<[U]> where U : GoogleHomeSDK.AutomationValue
+  public func filter(_ isIncluded: (GoogleHomeSDK.TypedExpression<V.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V : GoogleHomeSDK.OptionalAutomationValueArray {
+  public var size: GoogleHomeSDK.TypedExpression<Swift.Int> {
+    get
+  }
+  public func contains(_ element: GoogleHomeSDK.TypedExpression<V.Wrapped.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func contains(_ element: V.Wrapped.Element) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.Int>) -> GoogleHomeSDK.TypedExpression<V.Wrapped.Element?> {
+    get
+  }
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.Int?>) -> GoogleHomeSDK.TypedExpression<V.Wrapped.Element?> {
+    get
+  }
+  public subscript(index: Swift.Int) -> GoogleHomeSDK.TypedExpression<V.Wrapped.Element?> {
+    get
+  }
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.UInt>) -> GoogleHomeSDK.TypedExpression<V.Wrapped.Element?> {
+    get
+  }
+  public subscript(index: GoogleHomeSDK.TypedExpression<Swift.UInt?>) -> GoogleHomeSDK.TypedExpression<V.Wrapped.Element?> {
+    get
+  }
+  public subscript(index: Swift.UInt) -> GoogleHomeSDK.TypedExpression<V.Wrapped.Element?> {
+    get
+  }
+  public func any(where predicate: (GoogleHomeSDK.TypedExpression<V.Wrapped.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func all(where predicate: (GoogleHomeSDK.TypedExpression<V.Wrapped.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func none(where predicate: (GoogleHomeSDK.TypedExpression<V.Wrapped.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func map<U>(_ transform: (GoogleHomeSDK.TypedExpression<V.Wrapped.Element>) -> GoogleHomeSDK.TypedExpression<U>) -> GoogleHomeSDK.TypedExpression<[U]?> where U : GoogleHomeSDK.AutomationValue
+  public func filter(_ isIncluded: (GoogleHomeSDK.TypedExpression<V.Wrapped.Element>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<V>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Bool {
+  public func and(_ other: GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func or(_ other: GoogleHomeSDK.TypedExpression<Swift.Bool>) -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+  public func not() -> GoogleHomeSDK.TypedExpression<Swift.Bool>
+}
+extension GoogleHomeSDK.TypedExpression where V : Swift.UnsignedInteger {
+  public func toUInt8() -> GoogleHomeSDK.TypedExpression<Swift.UInt8>
+  public func toUInt16() -> GoogleHomeSDK.TypedExpression<Swift.UInt16>
+  public func toUInt32() -> GoogleHomeSDK.TypedExpression<Swift.UInt32>
+  public func toUInt64() -> GoogleHomeSDK.TypedExpression<Swift.UInt64>
+  public func toUInt() -> GoogleHomeSDK.TypedExpression<Swift.UInt>
+}
+extension GoogleHomeSDK.TypedExpression where V : GoogleHomeSDK.OptionalUnsignedInteger {
+  public func toUInt8() -> GoogleHomeSDK.TypedExpression<Swift.UInt8?>
+  public func toUInt16() -> GoogleHomeSDK.TypedExpression<Swift.UInt16?>
+  public func toUInt32() -> GoogleHomeSDK.TypedExpression<Swift.UInt32?>
+  public func toUInt64() -> GoogleHomeSDK.TypedExpression<Swift.UInt64?>
+  public func toUInt() -> GoogleHomeSDK.TypedExpression<Swift.UInt?>
+}
+extension GoogleHomeSDK.TypedExpression where V : Swift.SignedInteger {
+  public func toInt8() -> GoogleHomeSDK.TypedExpression<Swift.Int8>
+  public func toInt16() -> GoogleHomeSDK.TypedExpression<Swift.Int16>
+  public func toInt32() -> GoogleHomeSDK.TypedExpression<Swift.Int32>
+  public func toInt64() -> GoogleHomeSDK.TypedExpression<Swift.Int64>
+  public func toInt() -> GoogleHomeSDK.TypedExpression<Swift.Int>
+}
+extension GoogleHomeSDK.TypedExpression where V : GoogleHomeSDK.OptionalSignedInteger {
+  public func toInt8() -> GoogleHomeSDK.TypedExpression<Swift.Int8?>
+  public func toInt16() -> GoogleHomeSDK.TypedExpression<Swift.Int16?>
+  public func toInt32() -> GoogleHomeSDK.TypedExpression<Swift.Int32?>
+  public func toInt64() -> GoogleHomeSDK.TypedExpression<Swift.Int64?>
+  public func toInt() -> GoogleHomeSDK.TypedExpression<Swift.Int?>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Float {
+  public func toDouble() -> GoogleHomeSDK.TypedExpression<Swift.Double>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Float? {
+  public func toDouble() -> GoogleHomeSDK.TypedExpression<Swift.Double?>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Double {
+  public func toFloat() -> GoogleHomeSDK.TypedExpression<Swift.Float>
+}
+extension GoogleHomeSDK.TypedExpression where V == Swift.Double? {
+  public func toFloat() -> GoogleHomeSDK.TypedExpression<Swift.Float?>
+}
+public struct UnknownNode : GoogleHomeSDK.Node {
+  public var id: Swift.String
+  public func isEqual(to other: any GoogleHomeSDK.Node) -> Swift.Bool
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  public typealias ID = Swift.String
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Swift.Duration : GoogleHomeSDK.StructDataRepresentable {
+  public var seconds: Swift.Int64 {
+    get
+  }
+  public var nanoseconds: Swift.Int64 {
+    get
+  }
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+}
+extension Swift.Duration {
+  public enum StructFields : Swift.UInt32, GoogleHomeSDK.Field {
+    case seconds
+    case nanos
+    public var id: Swift.UInt32 {
+      get
+    }
+    public var type: GoogleHomeSDK.FieldType {
+      get
+    }
+    public init?(rawValue: Swift.UInt32)
+    @available(iOS 16.0, tvOS 16.0, watchOS 9.0, macOS 13.0, *)
+    public typealias RawValue = Swift.UInt32
+    public var rawValue: Swift.UInt32 {
+      get
+    }
+  }
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public struct LocalDate : Swift.Hashable, Swift.Codable, Swift.Sendable, GoogleHomeSDK.StructDataRepresentable {
+  public let year: Swift.Int32
+  public let month: GoogleHomeSDK.LocalDate.Month
+  public let day: Swift.Int32
+  public init(year: Swift.Int32, month: GoogleHomeSDK.LocalDate.Month, day: Swift.Int32)
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public enum Month : Swift.UInt64, GoogleHomeSDK.Enum8, Swift.Sendable, Swift.Codable {
+    case january
+    case february
+    case march
+    case april
+    case may
+    case june
+    case july
+    case august
+    case september
+    case october
+    case november
+    case december
+    case unrecognized
+    public static func unrecognizedCase() -> GoogleHomeSDK.LocalDate.Month
+    public init?(rawValue: Swift.UInt64)
+    public typealias OriginalValue = Swift.UInt8
+    public typealias RawValue = Swift.UInt64
+    public var rawValue: Swift.UInt64 {
+      get
+    }
+  }
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public var monthDay: GoogleHomeSDK.MonthDay {
+    get
+  }
+  public var yearMonth: GoogleHomeSDK.YearMonth {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.LocalDate, b: GoogleHomeSDK.LocalDate) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension GoogleHomeSDK.LocalDate {
+  public init(dateComponents: Foundation.DateComponents) throws
+  public var dateComponents: Foundation.DateComponents {
+    get
+  }
+}
+extension GoogleHomeSDK.LocalDate {
+  public enum StructFields : Swift.UInt32, GoogleHomeSDK.Field {
+    case year
+    case month
+    case day
+    public var id: Swift.UInt32 {
+      get
+    }
+    public var type: GoogleHomeSDK.FieldType {
+      get
+    }
+    public init?(rawValue: Swift.UInt32)
+    public typealias RawValue = Swift.UInt32
+    public var rawValue: Swift.UInt32 {
+      get
+    }
+  }
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public struct MonthDay : Swift.Hashable, Swift.Codable, Swift.Sendable, GoogleHomeSDK.StructDataRepresentable {
+  public let month: GoogleHomeSDK.LocalDate.Month
+  public let day: Swift.Int32
+  public init(month: GoogleHomeSDK.LocalDate.Month, day: Swift.Int32)
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.MonthDay, b: GoogleHomeSDK.MonthDay) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension GoogleHomeSDK.MonthDay {
+  public init(dateComponents: Foundation.DateComponents) throws
+  public var dateComponents: Foundation.DateComponents {
+    get
+  }
+}
+extension GoogleHomeSDK.MonthDay {
+  public enum StructFields : Swift.UInt32, GoogleHomeSDK.Field {
+    case month
+    case day
+    public var id: Swift.UInt32 {
+      get
+    }
+    public var type: GoogleHomeSDK.FieldType {
+      get
+    }
+    public init?(rawValue: Swift.UInt32)
+    public typealias RawValue = Swift.UInt32
+    public var rawValue: Swift.UInt32 {
+      get
+    }
+  }
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public struct SolarTime : Swift.Hashable, Swift.Codable, Swift.Sendable, GoogleHomeSDK.StructDataRepresentable {
+  public let type: GoogleHomeSDK.SolarTime.SolarTimeType
+  public let offset: Swift.Duration
+  public init(type: GoogleHomeSDK.SolarTime.SolarTimeType, offset: Swift.Duration = .seconds(0))
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public enum SolarTimeType : Swift.UInt64, GoogleHomeSDK.Enum8, Swift.Sendable, Swift.Codable {
+    case unknown
+    case sunrise
+    case sunset
+    case unrecognized
+    public static func unrecognizedCase() -> GoogleHomeSDK.SolarTime.SolarTimeType
+    public init?(rawValue: Swift.UInt64)
+    public typealias OriginalValue = Swift.UInt8
+    public typealias RawValue = Swift.UInt64
+    public var rawValue: Swift.UInt64 {
+      get
+    }
+  }
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.SolarTime, b: GoogleHomeSDK.SolarTime) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension GoogleHomeSDK.SolarTime {
+  public enum StructFields : Swift.UInt32, GoogleHomeSDK.Field {
+    case type
+    case offset
+    public var id: Swift.UInt32 {
+      get
+    }
+    public var type: GoogleHomeSDK.FieldType {
+      get
+    }
+    public init?(rawValue: Swift.UInt32)
+    public typealias RawValue = Swift.UInt32
+    public var rawValue: Swift.UInt32 {
+      get
+    }
+  }
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public struct TimeOfDay : Swift.Hashable, Swift.Codable, Swift.Sendable, GoogleHomeSDK.StructDataRepresentable {
+  public static let midnight: GoogleHomeSDK.TimeOfDay
+  public static let noon: GoogleHomeSDK.TimeOfDay
+  public static let max: GoogleHomeSDK.TimeOfDay
+  public let hours: Swift.Int32
+  public let minutes: Swift.Int32
+  public let seconds: Swift.Int32
+  public let nanos: Swift.Int32
+  public init(hours: Swift.Int32, minutes: Swift.Int32, seconds: Swift.Int32 = 0, nanos: Swift.Int32 = 0)
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.TimeOfDay, b: GoogleHomeSDK.TimeOfDay) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension GoogleHomeSDK.TimeOfDay {
+  public enum StructFields : Swift.UInt32, GoogleHomeSDK.Field {
+    case hours
+    case minutes
+    case seconds
+    case nanos
+    public var id: Swift.UInt32 {
+      get
+    }
+    public var type: GoogleHomeSDK.FieldType {
+      get
+    }
+    public init?(rawValue: Swift.UInt32)
+    public typealias RawValue = Swift.UInt32
+    public var rawValue: Swift.UInt32 {
+      get
+    }
+  }
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+public struct YearMonth : Swift.Hashable, Swift.Codable, Swift.Sendable, GoogleHomeSDK.StructDataRepresentable {
+  public let year: Swift.Int32
+  public let month: GoogleHomeSDK.LocalDate.Month
+  public init(year: Swift.Int32, month: GoogleHomeSDK.LocalDate.Month)
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.YearMonth, b: GoogleHomeSDK.YearMonth) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension GoogleHomeSDK.YearMonth {
+  public init(dateComponents: Foundation.DateComponents) throws
+  public var dateComponents: Foundation.DateComponents {
+    get
+  }
+}
+extension GoogleHomeSDK.YearMonth {
+  public enum StructFields : Swift.UInt32, GoogleHomeSDK.Field {
+    case year
+    case month
+    public var id: Swift.UInt32 {
+      get
+    }
+    public var type: GoogleHomeSDK.FieldType {
+      get
+    }
+    public init?(rawValue: Swift.UInt32)
+    public typealias RawValue = Swift.UInt32
+    public var rawValue: Swift.UInt32 {
+      get
+    }
+  }
+  public static func structField(id: Swift.UInt32) -> (any GoogleHomeSDK.Field)?
+}
+extension Foundation.UserDefaults : @unchecked Swift.Sendable {
+}
+public enum MatterSuggestedUserAction : Swift.String, Swift.CaseIterable, Swift.Sendable {
+  case checkHubAvailability
+  case checkWifiNetwork
+  case checkDeviceAvailability
+  case factoryResetDevice
+  case tryAgainLater
+  public static let defaultActions: [GoogleHomeSDK.MatterSuggestedUserAction]
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [GoogleHomeSDK.MatterSuggestedUserAction]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [GoogleHomeSDK.MatterSuggestedUserAction] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct MatterUnsuccessfulCommissioningResult : Swift.Sendable {
+  public let detailedError: (any Swift.Error)?
+  public let suggestedUserActions: [GoogleHomeSDK.MatterSuggestedUserAction]
+  public let traceString: Swift.String?
+}
+extension GoogleHomeSDK.Home {
+  @_Concurrency.MainActor public static func configure(_ block: (inout GoogleHomeSDK.HomeClientConfiguration) -> Swift.Void)
+}
+@_Concurrency.MainActor public struct HomeClientConfiguration : Swift.Sendable {
+  @_Concurrency.MainActor public var teamID: Swift.String
+  @_Concurrency.MainActor public var clientID: Swift.String
+  @_Concurrency.MainActor public var sharedAppGroup: Swift.String
+  @_Concurrency.MainActor public var strictOperationValidation: Swift.Bool
+  @_Concurrency.MainActor public var referencedAutomationTypes: GoogleHomeSDK.ReferencedAutomationTypes
+}
+@_Concurrency.MainActor final public class ReferencedAutomationTypes : Swift.Sendable {
+  @_Concurrency.MainActor public init(deviceTypes: [any GoogleHomeSDK.DeviceType.Type] = [], traits: [any GoogleHomeSDK.Trait.Type] = [])
+  @objc deinit
+}
+public enum SubscriptionError : Swift.Error {
+  case objectDeleted
+  case transportFailed
+  case other
+  public static func == (a: GoogleHomeSDK.SubscriptionError, b: GoogleHomeSDK.SubscriptionError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Date : GoogleHomeSDK.StructDataRepresentable {
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+}
+public struct MatterCommissionableDevice : GoogleHomeSDK.StructDataRepresentable, Swift.Hashable, Swift.Codable, Swift.Sendable {
+  public let discriminator: Swift.UInt32
+  public let discoveryModes: [GoogleHomeSDK.MatterCommissionableDevice.DiscoveryMode]
+  public let vendorID: Swift.UInt32?
+  public let productID: Swift.UInt32?
+  public init(discriminator: Swift.UInt32, discoveryModes: [GoogleHomeSDK.MatterCommissionableDevice.DiscoveryMode], vendorID: Swift.UInt32? = nil, productID: Swift.UInt32? = nil)
+  public init(decoder: GoogleHomeSDK.TraitDecoder) throws
+  public func encode(with encoder: GoogleHomeSDK.TraitEncoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: GoogleHomeSDK.MatterCommissionableDevice, b: GoogleHomeSDK.MatterCommissionableDevice) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension GoogleHomeSDK.MatterCommissionableDevice {
+  public enum DiscoveryMode : Swift.String, Swift.Codable, Swift.Sendable {
+    case unspecified
+    case ip
+    case ble
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+public protocol MatterTrait : GoogleHomeSDK.Trait {
+}
+extension GoogleHomeSDK.MatterTrait {
+  public static func makeTraitID(for clusterID: Swift.UInt32) -> Swift.String
+}
+final public class DACHasher {
+  public init(userDefaults: Foundation.UserDefaults)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class HomeMatterCommissioner {
+  convenience public init(appGroup: Swift.String) throws
+  final public func validateDeviceCredential(_ deviceCredential: MatterSupport.MatterAddDeviceExtensionRequestHandler.DeviceCredential)
+  final public func commissionMatterDevice(onboardingPayload: Swift.String) async throws
+  final public func fetchRooms() throws -> [MatterSupport.MatterAddDeviceRequest.Room]
+  final public func configureMatterDevice(deviceName: Swift.String, roomName: Swift.String?) async throws
+  @objc deinit
+}
+public enum HomeMatterError : Swift.Error, Swift.Equatable {
+  case invalidAppGroup(Swift.String)
+  case commissioningFailed(Swift.String)
+  case unableToFetchRooms
+  public static func == (a: GoogleHomeSDK.HomeMatterError, b: GoogleHomeSDK.HomeMatterError) -> Swift.Bool
+}
+extension GoogleHomeSDK.ConnectivityState : Swift.Equatable {}
+extension GoogleHomeSDK.ConnectivityState : Swift.Hashable {}
+extension GoogleHomeSDK.EventImportance : Swift.Hashable {}
+extension GoogleHomeSDK.HomeDevice : GoogleHomeSDK.HomeObject {}
+extension GoogleHomeSDK.HomeError.Code : Swift.Equatable {}
+extension GoogleHomeSDK.HomeError.Code : Swift.Hashable {}
+extension GoogleHomeSDK.HomeError.Code : Swift.RawRepresentable {}
+extension GoogleHomeSDK.HomeObjectType : Swift.Equatable {}
+extension GoogleHomeSDK.HomeObjectType : Swift.Hashable {}
+extension GoogleHomeSDK.LocalityType : Swift.Equatable {}
+extension GoogleHomeSDK.LocalityType : Swift.Hashable {}
+extension GoogleHomeSDK.Room : GoogleHomeSDK.HomeObject {}
+extension GoogleHomeSDK.Structure : GoogleHomeSDK.HomeObject {}
+extension GoogleHomeSDK.TraitEncoder.PayloadType : Swift.Equatable {}
+extension GoogleHomeSDK.TraitEncoder.PayloadType : Swift.Hashable {}
+extension GoogleHomeSDK.JoinSemanticType : Swift.Equatable {}
+extension GoogleHomeSDK.JoinSemanticType : Swift.Hashable {}
+extension GoogleHomeSDK.ValidationIssueSeverity : Swift.Equatable {}
+extension GoogleHomeSDK.ValidationIssueSeverity : Swift.Hashable {}
+extension GoogleHomeSDK.PresenceSensingSetupType : Swift.Equatable {}
+extension GoogleHomeSDK.PresenceSensingSetupType : Swift.Hashable {}
+extension GoogleHomeSDK.BaseUnit : Swift.RawRepresentable {}
+extension GoogleHomeSDK.MatterSuggestedUserAction : Swift.Equatable {}
+extension GoogleHomeSDK.MatterSuggestedUserAction : Swift.Hashable {}
+extension GoogleHomeSDK.MatterSuggestedUserAction : Swift.RawRepresentable {}
+extension GoogleHomeSDK.SubscriptionError : Swift.Equatable {}
+extension GoogleHomeSDK.SubscriptionError : Swift.Hashable {}
+extension GoogleHomeSDK.MatterCommissionableDevice.DiscoveryMode : Swift.Equatable {}
+extension GoogleHomeSDK.MatterCommissionableDevice.DiscoveryMode : Swift.Hashable {}
+extension GoogleHomeSDK.MatterCommissionableDevice.DiscoveryMode : Swift.RawRepresentable {}
